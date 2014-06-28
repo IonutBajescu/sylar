@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+// frod
+
+include __DIR__.'/src/Ionut/SecurityListener/autoload.php';
+
+use \Ionut\SecurityListener\Console\Application;
+
+$commands = ['Tail'];
+
+$application = new Application();
+foreach($commands as $command) {
+    $instance = call_user_func([new ReflectionClass("Ionut\\SecurityListener\\Console\\Commands\\{$command}"), 'newInstance']);
+    $application->add($instance);
+}
+$application->run();
