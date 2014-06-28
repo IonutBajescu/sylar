@@ -1,0 +1,31 @@
+{
+    "name": "ionut/securitylistener",
+    "type": "library",
+    "description": "...",
+    "keywords": ["security"],
+    "homepage": "http://securitylistener.ionut-bajescu.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ionut Bajescu",
+            "email": "office@ionut-bajescu.com",
+            "homepage": "http://ionut-bajescu.com",
+            "role": "Programmer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/console": "4.2.*"
+    },
+
+    "require-dev": {
+        "php": ">=5.4.0",
+        "phpunit/phpunit": "4.1.*"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "Ionut\\SecurityListener": "src"
+        }
+    }
+}
