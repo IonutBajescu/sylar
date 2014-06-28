@@ -1,7 +1,0 @@
-
-
-
-Utilizabil pentru a vedea daca cineva incearca sa-ti testeze securitatea site-ului.
-
-
-Comanda gen tail care sa stea sa arate ultimele incercari
