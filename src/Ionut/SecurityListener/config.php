@@ -12,7 +12,7 @@ return [
 		 * 'log_event' => false
 		 */
 		'log_event' => [
-			'to' => __DIR__.'/logs.txt'
+			'to' => dirname(dirname(dirname(__DIR__))).'/data/logs.txt'
 		],
 
 		/**
