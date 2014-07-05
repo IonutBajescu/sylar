@@ -15,12 +15,13 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/console": "4.2.*"
+        "illuminate/console": "4.2.*",
     },
 
     "require-dev": {
         "php": ">=5.4.0",
-        "phpunit/phpunit": "4.1.*"
+        "phpunit/phpunit": "4.1.*",
+        "mockery/mockery": "0.9.1"
     },
 
     "autoload": {
