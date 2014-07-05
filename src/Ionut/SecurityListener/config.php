@@ -5,24 +5,25 @@ return [
 	/**
 	 * If request information matches filters we have some default actions to do.
 	 */
-	'on_trigger' => [
+	'receivers' => [
 		/**
 		 * Log all data to a file.
 		 *
-		 * 'log_event' => false
+		 * 'log' => false
 		 */
-		'log_event' => [
+		'log' => [
 			'to' => dirname(dirname(dirname(__DIR__))).'/data/logs.txt'
 		],
 
 		/**
 		 * Send request data, with attacker information, to email.
 		 *
-		 * 'send_to_email' => [
-		 *      'mail' => 'contact@example.com'
+		 * 'mail' => [
+		 *      'to' => 'contact@example.com',
+		 *      'subject' => 'Hey!'
 		 * ]
 		 */
-		'send_to_email' => false,
+		'mail' => false,
 
 		/**
 		 * That's dangerous. Some times, on some IT sites, SecurityListener can give false pozitives.
@@ -30,7 +31,7 @@ return [
 		 * 		'on_gravity' => 'high'
 		 * ]
 		 */
-		'block_ip' => false
+		'blocker' => false
 	],
 
 	'patterns' => [
