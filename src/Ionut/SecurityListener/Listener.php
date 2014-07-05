@@ -1,9 +1,11 @@
 <?php namespace Ionut\SecurityListener;
 
+
 /**
  * SecurityListener - Listen for security tests made on your site.
  */
 class Listener {
+	protected $receiveNotify = ['Ionut\SecurityListener\Receivers\Mail', 'Ionut\SecurityListener\Receivers\Log', 'Ionut\SecurityListener\Receivers\Blocker'];
 
 
 	/**
@@ -11,9 +13,13 @@ class Listener {
 	 */
 	public function __construct(Request $request)
 	{
-		$this->request = $request;
 
 		$this->config = (object)(include 'config.php');
+
+		$this->request = $request;
+
+		$this->receivers = new Receivers($this);
+		$this->receivers->bindReceivers($this->receiveNotify);
 	}
 
 	/**
@@ -37,40 +43,8 @@ class Listener {
 		$errors = $this->parseMatches();
 
 		foreach($errors as $summary){
-			if($this->config->on_trigger['log_event']){
-				$this->logEvent($summary);
-			}
-
-			if($this->config->on_trigger['send_to_email']){
-				$this->sendToEmail($summary);
-			}
-
-			if($this->config->on_trigger['block_ip']){
-				$this->blockIp();
-			}
+			$this->receivers->send($summary);
 		}
-	}
-
-	/**
-	 * Log event to a file.
-	 *
-	 * @param  string $summary Event summary.
-	 * @return void
-	 */
-	public function logEvent($summary)
-	{
-		$file = $this->config->on_trigger['log_event']['to'];
-		file_put_contents($file, $summary.PHP_EOL, FILE_APPEND);
-	}
-
-	public function blockIp()
-	{
-		throw new Exception('Not implemented');
-	}
-
-	public function sendToEmail($summary)
-	{
-		throw new Exception('Not implemented');
 	}
 
 	/**
