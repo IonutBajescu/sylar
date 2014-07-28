@@ -46,17 +46,4 @@ class LogTest extends PHPUnit_Framework_TestCase {
 	    $mock->expects($this->any())->method('getDataForTesting')->will($this->returnValue($input));
 		return $mock;
 	}
-
-
-	// The tearDown() method are run once for each test method.
-	public function setUp()
-	{
-
-	}
-
-	// The setUp() method are run once for each test method.
-	public function tearDown()
-	{
-
-	}
 }

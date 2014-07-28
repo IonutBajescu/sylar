@@ -20,6 +20,7 @@ return [
 		 *
 		 * 'mail' => [
 		 *      'to' => 'contact@example.com',
+		 *      'from' => 'from@example.com',
 		 *      'subject' => 'Hey!'
 		 * ]
 		 */
