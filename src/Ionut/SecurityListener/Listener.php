@@ -18,6 +18,8 @@ class Listener {
 
 		$this->request = $request;
 
+		$this->container = new Container;
+
 		$this->receivers = new Receivers($this);
 		$this->receivers->bindReceivers($this->receiveNotify);
 	}
