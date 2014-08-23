@@ -84,6 +84,9 @@ class Listener {
 		$errors = [];
 		foreach ($params as $k => $v) {
 			if (is_array($v)) {
+				if (empty($v)) {
+					continue;
+				}
 				$errors = array_merge($errors, $this->parseMatches($v));
 			} else {
 				list($pattern, $type) = $this->testConfigPatterns($v);
