@@ -1,5 +1,7 @@
 <?php namespace Ionut\SecurityListener\Receivers;
 
+use Ionut\SecurityListener\Alert;
+
 class Log extends Receiver {
 
 	public function __construct($listener)
@@ -7,9 +9,9 @@ class Log extends Receiver {
 		$this->listener = $listener;
 	}
 
-	public function call($info)
+	public function call(Alert $alert)
 	{
-		return (bool)fwrite($this->getFileHandler(), $info . PHP_EOL);
+		return (bool)fwrite($this->getFileHandler(), $alert->getInfo() . PHP_EOL);
 	}
 
 	public function getFileHandler()

@@ -70,7 +70,8 @@ class Listener {
 				list($pattern, $type) = $this->testConfigPatterns($v);
 				if ($type) {
 					// security test finded in request
-					$errors[] = $this->securityExceptionSummary($pattern, $k, $type);
+					$summary  = $this->securityExceptionSummary($pattern, $k, $type);
+					$errors[] = new Alert($summary, $type);
 				}
 			}
 		}
