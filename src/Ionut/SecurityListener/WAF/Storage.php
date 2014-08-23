@@ -3,15 +3,14 @@
 
 class Storage implements StorageInterface {
 
-	protected $rows = [];
-	protected $original = [];
-	protected $file = './storage.json';
+	protected $rows = null;
+	protected $original = null;
+	protected $file;
 
 
 	public function __construct()
 	{
-		$contents = json_decode(file_get_contents($this->file));
-		var_dump($contents);
+		$this->file = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/waf.json';
 	}
 
 	public function __destruct()
@@ -28,12 +27,23 @@ class Storage implements StorageInterface {
 
 	public function exists($row)
 	{
-		return array_search($row, $this->rows);
+		if (is_null($this->original)) {
+			$this->initializeData();
+		}
+
+		return array_search($row, $this->rows) !== false;
+	}
+
+	public function initializeData()
+	{
+		$contents       = file_get_contents($this->file);
+		$this->original = $this->rows = json_decode($contents);
 	}
 
 	public function add($row)
 	{
 		$this->rows[] = $row;
+		$this->rows = array_unique($this->rows);
 	}
 
 	public function remove($row)
@@ -43,5 +53,10 @@ class Storage implements StorageInterface {
 				unset($this->rows[$k]);
 			}
 		}
+	}
+
+	public function clear()
+	{
+		file_put_contents($this->file, '[]');
 	}
 } 

@@ -2,16 +2,38 @@
 
 class Alert {
 
+	public $gravityRange = [
+		'low',
+		'medium',
+		'high'
+	];
 
 	private $info;
 	private $type;
+	private $gravity;
 
-	function __construct($info, $type)
+	function __construct($info, $type, $gravity)
 	{
 		$this->info = $info;
 		$this->type = $type;
+		$this->gravity = $gravity;
 	}
 
+	/**
+	 * @param string $gravity
+	 *
+	 * @return bool
+	 */
+	public function isWorstThan($gravity)
+	{
+		return $this->getGravityIndex() >= array_search($gravity, $this->gravityRange);
+	}
+
+	public function getGravityIndex()
+	{
+		return array_search($this->gravity, $this->gravityRange);
+	}
+	
 	/**
 	 * @return mixed
 	 */

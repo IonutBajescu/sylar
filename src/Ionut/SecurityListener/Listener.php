@@ -6,8 +6,20 @@
  */
 class Listener {
 
+	public $types = [
+		'low',
+		'medium',
+		'high'
+	];
+	/**
+	 * @var WAF\Storage
+	 */
+	public $wafStorage;
+	/**
+	 * @var WAF\Manager
+	 */
+	public $waf;
 	protected $receiveNotify = ['Ionut\SecurityListener\Receivers\Mail', 'Ionut\SecurityListener\Receivers\Log', 'Ionut\SecurityListener\Receivers\Blocker'];
-
 
 	/**
 	 * @return void
@@ -23,6 +35,9 @@ class Listener {
 
 		$this->receivers = new Receivers($this);
 		$this->receivers->bindReceivers($this->receiveNotify);
+
+		$this->wafStorage = new WAF\Storage();
+		$this->waf        = new WAF\Manager($this->wafStorage);
 	}
 
 	/**
@@ -44,6 +59,10 @@ class Listener {
 	 */
 	public function listen()
 	{
+		if ($this->config->receivers['blocker']) {
+			$this->waf->listen();
+		}
+
 		$errors = $this->parseMatches();
 
 		foreach ($errors as $summary) {
@@ -71,7 +90,7 @@ class Listener {
 				if ($type) {
 					// security test finded in request
 					$summary  = $this->securityExceptionSummary($pattern, $k, $type);
-					$errors[] = new Alert($summary, $type);
+					$errors[] = new Alert($summary, $type, $pattern['gravity']);
 				}
 			}
 		}

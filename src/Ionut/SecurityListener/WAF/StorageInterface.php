@@ -8,4 +8,6 @@ interface StorageInterface {
 	public function add($row);
 
 	public function remove($row);
+
+	public function clear();
 } 
