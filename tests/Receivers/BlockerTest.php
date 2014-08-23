@@ -30,6 +30,21 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 		return $mock;
 	}
 
+	public function testWithoutException()
+	{
+		$config                         = include __DIR__ . '/../../src/Ionut/SecurityListener/config.php';
+		$config['receivers']['blocker'] =
+			[
+				'min_gravity' => 'medium'
+			];
+
+		$listener         = new SecurityListener($this->mockInput(['sql' => "this is a normal string"]));
+		$listener->config = (object)$config;
+		$listener->waf->setIp(microtime());
+
+		$listener->listen();
+	}
+
 	public function tearDown()
 	{
 		$storage = new \Ionut\SecurityListener\WAF\Storage();
