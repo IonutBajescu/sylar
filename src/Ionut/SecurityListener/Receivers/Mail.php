@@ -1,10 +1,11 @@
 <?php namespace Ionut\SecurityListener\Receivers;
 
 use Ionut\SecurityListener\Alert;
+use Ionut\SecurityListener\Listener;
 
 class Mail extends Receiver {
 
-	public function __construct($listener)
+	public function __construct(Listener $listener)
 	{
 		$this->listener = $listener;
 	}

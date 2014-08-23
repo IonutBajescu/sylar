@@ -27,9 +27,11 @@ return [
 		'mail'    => false,
 
 		/**
+		 * !!! WAF !!!
+		 *
 		 * That's dangerous. Some times, on some IT sites, SecurityListener can give false pozitives.
 		 * 'block_ip' => [
-		 *        'on_gravity' => 'high'
+		 *        'min_gravity' => 'high'
 		 * ]
 		 */
 		'blocker' => false

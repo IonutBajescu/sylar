@@ -1,17 +1,27 @@
 <?php namespace Ionut\SecurityListener\Receivers;
 
 use Ionut\SecurityListener\Alert;
+use Ionut\SecurityListener\Listener;
 
 abstract class Receiver {
 
+	/**
+	 * @var Listener
+	 */
+	public $listener;
 
-	abstract public function __construct($listener);
+	abstract public function __construct(Listener $listener);
 
 	abstract public function call(Alert $alert);
 
 	public function allowed()
 	{
-		return (bool)$this->listener->config->receivers[$this->getShortName()];
+		return (bool)$this->getConfig();
+	}
+
+	public function getConfig()
+	{
+		return $this->listener->config->receivers[$this->getShortName()];
 	}
 
 	public function getShortName()
