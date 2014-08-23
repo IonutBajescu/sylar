@@ -14,8 +14,8 @@ class Alert {
 
 	function __construct($info, $type, $gravity)
 	{
-		$this->info = $info;
-		$this->type = $type;
+		$this->info    = $info;
+		$this->type    = $type;
 		$this->gravity = $gravity;
 	}
 
@@ -33,7 +33,7 @@ class Alert {
 	{
 		return array_search($this->gravity, $this->gravityRange);
 	}
-	
+
 	/**
 	 * @return mixed
 	 */

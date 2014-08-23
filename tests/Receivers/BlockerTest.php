@@ -10,7 +10,6 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 		$this->setExpectedException('Ionut\SecurityListener\WAF\Exceptions\BlockedIpException');
 
 		$config = include __DIR__ . '/../../src/Ionut/SecurityListener/config.php';
-		// turn on mailer
 		$config['receivers']['blocker'] =
 			[
 				'min_gravity' => 'medium'

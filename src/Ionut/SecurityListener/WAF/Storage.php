@@ -20,7 +20,7 @@ class Storage implements StorageInterface {
 
 	protected function saveChanges()
 	{
-		if($this->rows != $this->original){
+		if ($this->rows != $this->original) {
 			file_put_contents($this->file, json_encode($this->rows));
 		}
 	}
@@ -43,13 +43,13 @@ class Storage implements StorageInterface {
 	public function add($row)
 	{
 		$this->rows[] = $row;
-		$this->rows = array_unique($this->rows);
+		$this->rows   = array_unique($this->rows);
 	}
 
 	public function remove($row)
 	{
-		foreach($this->rows as $k => $row){
-			if($row == $row){
+		foreach ($this->rows as $k => $row) {
+			if ($row == $row) {
 				unset($this->rows[$k]);
 			}
 		}

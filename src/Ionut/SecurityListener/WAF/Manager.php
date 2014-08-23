@@ -21,7 +21,7 @@ class Manager {
 	public function listen()
 	{
 		$ip = $this->getIp();
-		if(is_null($ip)){
+		if (is_null($ip)) {
 			throw new Exceptions\WithoutIpException();
 		}
 
@@ -35,7 +35,8 @@ class Manager {
 		return $this->ip;
 	}
 
-	public function setIp($ip){
+	public function setIp($ip)
+	{
 		$this->ip = $ip;
 	}
 } 
