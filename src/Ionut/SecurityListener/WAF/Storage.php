@@ -36,6 +36,10 @@ class Storage implements StorageInterface {
 
 	public function initializeData()
 	{
+		if(!file_exists($this->file)){
+			$this->clear(); // new file
+		}
+
 		$contents       = file_get_contents($this->file);
 		$this->original = $this->rows = json_decode($contents);
 	}
@@ -59,4 +63,5 @@ class Storage implements StorageInterface {
 	{
 		file_put_contents($this->file, '[]');
 	}
+
 } 
