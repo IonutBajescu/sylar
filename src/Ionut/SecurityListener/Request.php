@@ -13,7 +13,7 @@ class Request {
 	 */
 	public function getDataForTesting()
 	{
-		return [$_REQUEST, ['REQUEST_URI'=>0,'QUERY_STRING'=>0]+$_SERVER];
+		return [$_REQUEST, ['REQUEST_URI' => 0, 'QUERY_STRING' => 0] + $_SERVER];
 	}
 }
 
