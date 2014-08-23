@@ -7,25 +7,26 @@ class Log extends Receiver {
 		$this->listener = $listener;
 	}
 
-	public function openLogFile()
+	public function call($info)
 	{
-		$file = $this->listener->config->receivers['log']['to'];
-		return fopen($file, 'a+');
+		return (bool)fwrite($this->getFileHandler(), $info . PHP_EOL);
 	}
 
 	public function getFileHandler()
 	{
 		static $handler;
-		if(is_null($handler)){
+		if (is_null($handler)) {
 			$handler = $this->openLogFile();
 		}
 
 		return $handler;
 	}
 
-	public function call($info)
+	public function openLogFile()
 	{
-		return (bool)fwrite($this->getFileHandler(), $info.PHP_EOL);
+		$file = $this->listener->config->receivers['log']['to'];
+
+		return fopen($file, 'a+');
 	}
 }
 

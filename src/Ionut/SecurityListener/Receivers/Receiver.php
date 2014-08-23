@@ -14,9 +14,10 @@ abstract class Receiver {
 
 	public function getShortName()
 	{
-		$long = get_class($this);
+		$long  = get_class($this);
 		$short = explode('\\', $long);
-		$short = $short[count($short)-1];
+		$short = $short[count($short) - 1];
+
 		return strtolower($short);
 	}
 

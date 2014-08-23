@@ -1,6 +1,6 @@
 <?php namespace Ionut\SecurityListener;
 
-class Receivers extends Container{
+class Receivers extends Container {
 
 	public $receivers = [];
 
@@ -12,14 +12,14 @@ class Receivers extends Container{
 
 	public function bindReceivers(array $receivers)
 	{
-		foreach($receivers as $receiver){
+		foreach ($receivers as $receiver) {
 			$this->bindReceiver($receiver);
 		}
 	}
 
 	public function bindReceiver($receiver)
 	{
-		$this->singleton($receiver, function() use($receiver){
+		$this->singleton($receiver, function () use ($receiver) {
 			return new $receiver($this->listener);
 		});
 
@@ -29,9 +29,9 @@ class Receivers extends Container{
 	public function send($summary)
 	{
 		// send summary to all available receivers
-		foreach($this->receivers as $receiver){
+		foreach ($this->receivers as $receiver) {
 			$receiver = $this->make($receiver);
-			if($receiver->allowed()){
+			if ($receiver->allowed()) {
 				$receiver->call($summary);
 			}
 		}

@@ -11,8 +11,8 @@ return [
 		 *
 		 * 'log' => false
 		 */
-		'log' => [
-			'to' => dirname(dirname(dirname(__DIR__))).'/data/logs.txt'
+		'log'     => [
+			'to' => dirname(dirname(dirname(__DIR__))) . '/data/logs.txt'
 		],
 
 		/**
@@ -24,18 +24,18 @@ return [
 		 *      'subject' => 'Hey!'
 		 * ]
 		 */
-		'mail' => false,
+		'mail'    => false,
 
 		/**
 		 * That's dangerous. Some times, on some IT sites, SecurityListener can give false pozitives.
 		 * 'block_ip' => [
-		 * 		'on_gravity' => 'high'
+		 *        'on_gravity' => 'high'
 		 * ]
 		 */
 		'blocker' => false
 	],
 
-	'patterns' => [
+	'patterns'  => [
 		'sqli' => [
 			[
 				'pattern' => '/\\d\'/i',
@@ -63,7 +63,7 @@ return [
 		],
 
 
-		'xss' => [
+		'xss'  => [
 			[
 				'pattern' => '/document.cookie/i',
 				'gravity' => 'low',
@@ -78,7 +78,7 @@ return [
 		],
 
 
-		'lfi' => [
+		'lfi'  => [
 			[
 				'pattern' => '/\\/\\.\\.\\//',
 				'gravity' => 'high',
