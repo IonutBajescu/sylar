@@ -1,6 +1,5 @@
 <?php
 use Ionut\SecurityListener\Listener as SecurityListener;
-use Ionut\SecurityListener\Request;
 use Mockery as m;
 
 class LogTest extends PHPUnit_Framework_TestCase {
@@ -19,7 +18,8 @@ class LogTest extends PHPUnit_Framework_TestCase {
 
 		$log = new Ionut\SecurityListener\Receivers\Log($listener);
 
-		$this->assertTrue($log->call('some summary things'));
+		$alert = new \Ionut\SecurityListener\Alert('some summary things', null);
+		$this->assertTrue($log->call($alert));
 	}
 
 	public function testLogWhenSomeoneTestSecurity()

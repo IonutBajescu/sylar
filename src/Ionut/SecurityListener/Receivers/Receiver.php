@@ -1,11 +1,13 @@
 <?php namespace Ionut\SecurityListener\Receivers;
 
+use Ionut\SecurityListener\Alert;
+
 abstract class Receiver {
 
 
 	abstract public function __construct($listener);
 
-	abstract public function call($summary);
+	abstract public function call(Alert $alert);
 
 	public function allowed()
 	{
