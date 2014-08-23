@@ -30,7 +30,7 @@ return [
 		 * !!! WAF !!!
 		 *
 		 * That's dangerous. Some times, on some IT sites, SecurityListener can give false pozitives.
-		 * 'block_ip' => [
+		 * 'blocker' => [
 		 *        'min_gravity' => 'high'
 		 * ]
 		 */
