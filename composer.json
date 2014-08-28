@@ -15,9 +15,9 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/console": "~4.2.",
-        "illuminate/container": "~4.2",
-        "swiftmailer/swiftmailer": "~5.1"
+        "illuminate/console": "~4",
+        "illuminate/container": "~4",
+        "swiftmailer/swiftmailer": "~5"
 
     },
 
