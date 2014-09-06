@@ -2,7 +2,7 @@
 <?php
 // frod
 
-include __DIR__.'/src/Ionut/SecurityListener/autoload.php';
+include __DIR__ . '/src/Ionut/SecurityListener/autoload.php';
 
 use \Ionut\SecurityListener\Console\Application;
 

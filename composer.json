@@ -31,5 +31,7 @@
         "psr-0": {
             "Ionut\\SecurityListener": "src"
         }
-    }
+    },
+
+    "bin": ["bin/securitylistener"]
 }

@@ -16,7 +16,7 @@ class Tail extends Command {
 
 	Usage:
 
-	<info>./cli tail</info>
+	<info>php vendor/securitylistener tail</info>
 
 EOT
 			);
