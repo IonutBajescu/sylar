@@ -26,26 +26,31 @@ EOT
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		$this->info('Start tail on ' . date('d.m.Y H:i'));
-		$file        = $this->config->on_trigger['log_event']['to'];
+		$file        = $this->config->receivers['log']['to'];
 		$lastContent = false;
 
-		while ($content = file_get_contents($file)) {
-			if ($output->isDebug()) {
-				$this->comment('Check log file for new content');
-			}
-
-			if ($content !== $lastContent) {
-				$newContent = preg_replace('/^' . preg_quote($lastContent) . '/', '', $content);
-
-				// is not first while run
-				if ($lastContent != false) {
-					$this->comment($newContent);
+		if(file_exists($file)){
+			while ($content = file_get_contents($file)) {
+				if ($output->isDebug()) {
+					$this->comment('Check log file for new content');
 				}
 
-				$lastContent = $content;
-			}
+				if ($content !== $lastContent) {
+					$newContent = preg_replace('/^' . preg_quote($lastContent) . '/', '', $content);
 
-			sleep(1);
+					// is not first while run
+					if ($lastContent != false) {
+						$this->comment($newContent);
+					}
+
+					$lastContent = $content;
+				}
+
+				sleep(1);
+			}
+		} else{
+			$this->error("Log file not exists.");
 		}
+
 	}
 }
