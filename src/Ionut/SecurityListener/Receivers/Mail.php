@@ -12,7 +12,7 @@ class Mail extends Receiver {
 
 	public function call(Alert $alert)
 	{
-		return $this->sendMail($alert->getInfo());
+		return $this->sendMail($this->generateMailBody($alert));
 	}
 
 	protected function sendMail($message)
@@ -24,7 +24,7 @@ class Mail extends Receiver {
 			->setSubject($config['subject'])
 			->setFrom($config['from'])
 			->setTo($config['to'])
-			->setBody($message);
+			->setBody($message, 'text/html');
 
 		/**
 		 * @todo Add option to use a different transport.
@@ -33,5 +33,26 @@ class Mail extends Receiver {
 
 		return $mailer->send($m);
 	}
+
+	protected function generateMailBody(Alert $alert)
+	{
+		$requestExport = print_r($_REQUEST, true);
+		$serverExport  = print_r($_SERVER, true);
+
+		return "
+{$alert->getHtmlInfo()}
+<hr/>
+\$_REQUEST: <br/>
+<pre>
+{$requestExport}
+</pre>
+<hr/>
+\$_SERVER: <br/>
+<pre>
+{$serverExport}
+</pre>
+		";
+	}
 }
+
 
