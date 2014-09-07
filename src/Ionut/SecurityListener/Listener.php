@@ -92,8 +92,7 @@ class Listener {
 				list($pattern, $type) = $this->testConfigPatterns($v);
 				if ($type) {
 					// security test finded in request
-					$summary  = $this->securityExceptionSummary($pattern, $k, $type);
-					$errors[] = new Alert($summary, $type, $pattern['gravity']);
+					$errors[] = new Alert($type, $pattern, $k, $v);
 				}
 			}
 		}
@@ -121,37 +120,4 @@ class Listener {
 		return [false, false];
 	}
 
-	/**
-	 * Make a readable summary of attack.
-	 *
-	 * @param  array  $pattern
-	 * @param  string $paramName
-	 * @param  string $attackType
-	 *
-	 * @return string Summary of attack.
-	 */
-	public function securityExceptionSummary($pattern, $paramName, $attackType)
-	{
-		$patternDesc = $this->formatPatternDesc($pattern, $paramName);
-
-		$ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : '';
-
-		$attackType = strtoupper($attackType);
-		$date       = date('d.m.Y H:i');
-
-		return "$date [$attackType] {$ip} on $paramName - $patternDesc";
-	}
-
-	/**
-	 * Format description of a pattern from config.
-	 *
-	 * @param  array  $pattern
-	 * @param  string $paramName
-	 *
-	 * @return string
-	 */
-	public function formatPatternDesc($pattern, $paramName)
-	{
-		return str_replace('{param}', $paramName, $pattern['desc']);
-	}
 }

@@ -8,15 +8,20 @@ class Alert {
 		'high'
 	];
 
-	private $info;
 	private $type;
 	private $gravity;
+	private $requestKey;
+	private $requestValue;
+	private $pattern;
 
-	function __construct($info, $type, $gravity)
+	function __construct($type, $pattern, $requestKey, $requestValue)
 	{
-		$this->info    = $info;
-		$this->type    = $type;
-		$this->gravity = $gravity;
+		$this->type         = $type;
+		$this->requestKey   = $requestKey;
+		$this->requestValue = $requestValue;
+		$this->pattern      = $pattern;
+
+		$this->gravity = $pattern['gravity'];
 	}
 
 	/**
@@ -56,18 +61,38 @@ class Alert {
 	}
 
 	/**
-	 * @return string
+	 * Make a readable summary of attack.
+	 *
+	 * @return string Summary of attack.
 	 */
 	public function getInfo()
 	{
-		return $this->info;
+		list($patternDesc, $ip, $type, $date) = $this->infoParameters();
+
+		return "$date [$type] {$ip} on $this->requestKey with $this->requestValue - $patternDesc";
+	}
+
+	public function getHtmlInfo(){
+		list($patternDesc, $ip, $type, $date) = $this->infoParameters();
+
+		$ipLink = '<a href="http://whois.domaintools.com/'.$ip.'">'.$ip.'</a>';
+		return "$date [$type] {$ipLink} on <b>$this->requestKey</b> with <b>$this->requestValue</b> - <i>$patternDesc</i>";
 	}
 
 	/**
-	 * @param string $info
+	 * @return array
 	 */
-	public function setInfo($info)
+	protected function infoParameters()
 	{
-		$this->info = $info;
+		$patternDesc = str_replace('{param}', $this->requestKey, $this->pattern['desc']);
+
+		$ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
+
+		$type = strtoupper($this->type);
+		$date = date('d.m.Y H:i');
+
+		return array($patternDesc, $ip, $type, $date);
 	}
-} 
+
+
+}
