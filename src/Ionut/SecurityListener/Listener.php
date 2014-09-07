@@ -27,7 +27,7 @@ class Listener {
 	public function __construct(Request $request)
 	{
 
-		$this->config = (object)(include 'config.php');
+		$this->config = $this->setConfigFile('config.php');
 
 		$this->request = $request;
 
@@ -69,6 +69,7 @@ class Listener {
 			$this->receivers->send($summary);
 		}
 	}
+
 
 	/**
 	 * Parse all matchers from config on given parameters.
@@ -118,6 +119,27 @@ class Listener {
 		}
 
 		return [false, false];
+	}
+
+	/**
+	 * @param array $config
+	 *
+	 * @return object
+	 */
+	public function setConfig(array $config)
+	{
+		return $this->config = (object)$config;
+	}
+
+
+	/**
+	 * @param $file
+	 *
+	 * @return object
+	 */
+	public function setConfigFile($file)
+	{
+		return $this->setConfig(require $file);
 	}
 
 }
