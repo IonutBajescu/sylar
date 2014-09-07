@@ -5,7 +5,7 @@ Security Listener - WAF
 [![Latest Version](http://img.shields.io/packagist/v/ionut/securitylistener.svg)](https://packagist.org/packages/ionut/securitylistener)
 [![Dependency Status](https://www.versioneye.com/php/ionut:securitylistener/badge.svg)](https://www.versioneye.com/php/ionut:securitylistener)
 
-SecurityListener is an open source `Web Application Firewall`.
+SecurityListener is an open source `Web Application Firewall` && `Intrusion Detection System`.
 
 Little example:
 ```php
@@ -23,6 +23,9 @@ try{
 
 echo 'code protected from evil guys';
 ```
+
+
+You can install Security Listener with `composer require ionut/securitylistener:*`
 
 
 License
