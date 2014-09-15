@@ -5,7 +5,7 @@ class Manager {
 	protected $ip;
 
 	/**
-	 * @var Storage
+	 * @var StorageInterface
 	 */
 	private $storage;
 
