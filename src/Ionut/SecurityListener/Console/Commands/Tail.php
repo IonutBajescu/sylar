@@ -6,6 +6,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class Tail extends Command {
 
+	protected $config;
+
 	protected function configure()
 	{
 		$this

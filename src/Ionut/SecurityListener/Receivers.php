@@ -3,6 +3,7 @@
 class Receivers extends Container {
 
 	public $receivers = [];
+	protected $listener;
 
 
 	public function __construct(Listener $listener)

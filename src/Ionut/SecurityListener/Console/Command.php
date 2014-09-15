@@ -2,6 +2,8 @@
 
 class Command extends \Illuminate\Console\Command {
 
+	protected $config;
+
 	public function __construct()
 	{
 		parent::__construct();

@@ -19,7 +19,12 @@ class Listener {
 	 * @var WAF\Manager
 	 */
 	public $waf;
-	protected $receiveNotify = ['Ionut\SecurityListener\Receivers\Mail', 'Ionut\SecurityListener\Receivers\Log', 'Ionut\SecurityListener\Receivers\Blocker'];
+
+	public $receiveNotify = ['Ionut\SecurityListener\Receivers\Mail', 'Ionut\SecurityListener\Receivers\Log', 'Ionut\SecurityListener\Receivers\Blocker'];
+	public $receivers;
+	public $container;
+	public $config;
+	public $request;
 
 	/**
 	 * @return void
