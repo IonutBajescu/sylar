@@ -3,6 +3,7 @@
 abstract class FilterAbstract {
 
 	/**
+	 * @param string $input
 	 * @return bool
 	 */
 	abstract public function match($input);
