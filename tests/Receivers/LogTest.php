@@ -18,7 +18,8 @@ class LogTest extends PHPUnit_Framework_TestCase {
 
 		$log = new Ionut\SecurityListener\Receivers\Log($listener);
 
-		$alert = new \Ionut\SecurityListener\Alert(null, null, null, null);
+		$filter = new \Ionut\SecurityListener\Filters\Listener\Filter(null, null, null, null);
+		$alert = new \Ionut\SecurityListener\Alert($filter, null, null);
 		$this->assertTrue($log->call($alert));
 	}
 

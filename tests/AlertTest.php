@@ -1,5 +1,7 @@
 <?php
 
+use Ionut\SecurityListener\Filters\Listener\Filter;
+
 /**
  * This class don't test anything. But it shows debug information.
  */
@@ -27,7 +29,7 @@ class AlertTest extends PHPUnit_Framework_TestCase {
 
 	public function alertContructor(){
 		return [
-			['sqli', ['desc' => 'Attack description', 'gravity' => 'high'], 'id', "12'"]
+			[new Filter('a-z0-9', 5, 'Attack description', 'XSS'), 'id', "12'"]
 		];
 	}
 }

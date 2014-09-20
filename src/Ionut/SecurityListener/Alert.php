@@ -1,27 +1,28 @@
 <?php namespace Ionut\SecurityListener;
 
+use Ionut\SecurityListener\Filters\FilterAbstract;
+
 class Alert {
 
-	public $gravityRange = [
-		'low',
-		'medium',
-		'high'
-	];
-
-	private $type;
-	private $gravity;
 	private $requestKey;
 	private $requestValue;
-	private $pattern;
+	/**
+	 * @var FilterAbstract
+	 */
+	private $filter;
 
-	function __construct($type, $pattern, $requestKey, $requestValue)
+
+	/**
+	 * @param FilterAbstract $filter
+	 * @param                $requestKey
+	 * @param                $requestValue
+	 */
+	function __construct(FilterAbstract $filter, $requestKey, $requestValue)
 	{
-		$this->type         = $type;
+		$this->filter = $filter;
 		$this->requestKey   = $requestKey;
 		$this->requestValue = $requestValue;
-		$this->pattern      = $pattern;
 
-		$this->gravity = $pattern['gravity'];
 	}
 
 	/**
@@ -31,28 +32,7 @@ class Alert {
 	 */
 	public function isWorstThan($gravity)
 	{
-		return $this->getGravityIndex() >= array_search($gravity, $this->gravityRange);
-	}
-
-	public function getGravityIndex()
-	{
-		return array_search($this->gravity, $this->gravityRange);
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function getType()
-	{
-		return $this->type;
-	}
-
-	/**
-	 * @param mixed $type
-	 */
-	public function setType($type)
-	{
-		$this->type = $type;
+		return $this->filter->getGravity() >= $gravity;
 	}
 
 	public function __toString()
@@ -84,11 +64,11 @@ class Alert {
 	 */
 	protected function infoParameters()
 	{
-		$patternDesc = str_replace('{param}', $this->requestKey, $this->pattern['desc']);
+		$patternDesc = str_replace('{param}', $this->requestKey, $this->filter->getDesc());
 
 		$ip = isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null;
 
-		$type = strtoupper($this->type);
+		$type = strtoupper($this->filter->getType());
 		$date = date('d.m.Y H:i');
 
 		return array($patternDesc, $ip, $type, $date);
