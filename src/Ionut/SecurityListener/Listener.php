@@ -27,14 +27,19 @@ class Listener {
 	public $request;
 
 	/**
+	 * @var Filters\CollectionInterface
+	 */
+	protected $collection;
+
+	/**
 	 * @return void
 	 */
 	public function __construct(Request $request)
 	{
 
-		$this->config = $this->setConfigFile('config.php');
+		$this->config    = $this->setConfigFile('config.php');
 
-		$this->request = $request;
+		$this->request   = $request;
 
 		$this->container = new Container;
 
@@ -43,6 +48,8 @@ class Listener {
 
 		$this->wafStorage = new WAF\Storage();
 		$this->waf        = new WAF\Manager($this->wafStorage);
+
+		$this->collection = new $this->config->filtersCollection;
 	}
 
 	/**
@@ -68,7 +75,7 @@ class Listener {
 			$this->waf->listen();
 		}
 
-		$errors = $this->parseMatches();
+		$errors = $this->sendInputToFilters();
 
 		foreach ($errors as $summary) {
 			$this->receivers->send($summary);
@@ -76,14 +83,15 @@ class Listener {
 	}
 
 
+
 	/**
-	 * Parse all matchers from config on given parameters.
+	 * Exec all filters from collection for given params.
 	 *
 	 * @param  array $params
 	 *
-	 * @return array Matched vulnerability tests
+	 * @return array Alerts with matched intrusions.
 	 */
-	public function parseMatches(array $params = null)
+	public function sendInputToFilters(array $params = null)
 	{
 		$params = $params ?: $this->request->getDataForTesting();
 
@@ -93,12 +101,14 @@ class Listener {
 				if (empty($v)) {
 					continue;
 				}
-				$errors = array_merge($errors, $this->parseMatches($v));
+				$errors = array_merge($errors, $this->sendInputToFilters($v));
 			} else {
-				list($pattern, $type) = $this->testConfigPatterns($v);
-				if ($type) {
-					// security test finded in request
-					$errors[] = new Alert($type, $pattern, $k, $v);
+				// check all filters
+				foreach($this->collection->all() as $filter){
+					/* @var $filter Filters\FilterAbstract **/
+					if($filter->match($v)){
+						$errors[] = new Alert($filter, $k, $v);
+					}
 				}
 			}
 		}
@@ -106,25 +116,25 @@ class Listener {
 		return $errors;
 	}
 
+
 	/**
-	 * Test config patterns for a specified value.
-	 *
-	 * @param  string $v
+	 * @param $v Value for testing.
 	 *
 	 * @return array
 	 */
-	public function testConfigPatterns($v)
+	public function checkAlertType($v)
 	{
-		foreach ($this->config->patterns as $type => $patternsByType) {
-			foreach ($patternsByType as $pattern) {
-				if (preg_match($pattern['pattern'], $v)) {
-					return [$pattern, $type];
-				}
+		foreach($this->collection->all() as $filter){
+			/* @var $filter Filters\FilterAbstract **/
+			if($filter->match($v)){
+				return $filter->toArray();
+				return [strtolower($filter->getType())];
 			}
 		}
 
 		return [false, false];
 	}
+
 
 	/**
 	 * @param array $config

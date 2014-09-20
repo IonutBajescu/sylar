@@ -12,8 +12,8 @@ class SecurityListenerTest extends PHPUnit_Framework_TestCase {
 		$request = $this->mockInput($input);
 
 		$listener = new SecurityListener($request);
-		$errors = $listener->parseMatches();
-		$this->assertCount(1, $errors);
+		$errors = $listener->sendInputToFilters();
+		$this->assertCount(2, $errors);
 	}
 
 	public function testPatternsForSqli()
@@ -27,7 +27,7 @@ class SecurityListenerTest extends PHPUnit_Framework_TestCase {
 
 		$SL = new SecurityListener($this->mockInput());
 		foreach($inputParams as $bypasss => $expected){
-			$result = $SL->testConfigPatterns($bypasss);
+			$result = $SL->checkAlertType($bypasss);
 			$this->assertEquals($expected, $result[1]);
 		}
 	}
@@ -50,7 +50,7 @@ class SecurityListenerTest extends PHPUnit_Framework_TestCase {
 
 		$SL = new SecurityListener($this->mockInput());
 		foreach($wafBypasses as $bypasss){
-			$result = $SL->testConfigPatterns($bypasss);
+			$result = $SL->checkAlertType($bypasss);
 			$this->assertEquals('sqli', $result[1], "Test bypass {$bypasss} for sqli.");
 		}
 	}
@@ -65,7 +65,7 @@ class SecurityListenerTest extends PHPUnit_Framework_TestCase {
 		];
 		$SL = new SecurityListener($this->mockInput());
 		foreach($inputParams as $param => $expected){
-			$result = $SL->testConfigPatterns($param);
+			$result = $SL->checkAlertType($param);
 			$this->assertEquals($expected, $result[1]);
 		}
 	}
@@ -78,7 +78,7 @@ class SecurityListenerTest extends PHPUnit_Framework_TestCase {
 		];
 		$SL = new SecurityListener($this->mockInput());
 		foreach($inputParams as $param => $expected){
-			$result = $SL->testConfigPatterns($param);
+			$result = $SL->checkAlertType($param);
 			$this->assertEquals($expected, $result[1]);
 		}
 	}

@@ -12,7 +12,7 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 		$config = include __DIR__ . '/../../src/Ionut/SecurityListener/config.php';
 		$config['receivers']['blocker'] =
 			[
-				'min_gravity' => 'medium'
+				'min_gravity' => 1
 			];
 
 		$listener         = new SecurityListener($this->mockInput(['sql' => "-1 order by 6-- -"]));
@@ -35,7 +35,7 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 		$config                         = include __DIR__ . '/../../src/Ionut/SecurityListener/config.php';
 		$config['receivers']['blocker'] =
 			[
-				'min_gravity' => 'medium'
+				'min_gravity' => 1
 			];
 
 		$listener         = new SecurityListener($this->mockInput(['sql' => "this is a normal string"]));
