@@ -32,7 +32,7 @@ class Listener {
 	protected $collection;
 
 	/**
-	 * @return void
+	 * @param Request $request
 	 */
 	public function __construct(Request $request)
 	{
@@ -118,7 +118,7 @@ class Listener {
 
 
 	/**
-	 * @param $v Value for testing.
+	 * @param string $v Value for testing.
 	 *
 	 * @return array
 	 */
@@ -128,7 +128,6 @@ class Listener {
 			/* @var $filter Filters\FilterAbstract **/
 			if($filter->match($v)){
 				return $filter->toArray();
-				return [strtolower($filter->getType())];
 			}
 		}
 
