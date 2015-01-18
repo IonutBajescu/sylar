@@ -10,7 +10,7 @@ class Storage implements StorageInterface {
 
 	public function __construct()
 	{
-		$this->file = dirname(dirname(dirname(dirname(__DIR__)))) . '/data/waf.json';
+		$this->file = dirname(dirname(__DIR__)) . '/data/waf.json';
 	}
 
 	public function __destruct()
