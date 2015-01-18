@@ -12,7 +12,7 @@ return [
 		 * 'log' => false
 		 */
 		'log'     => [
-			'to' => dirname(dirname(dirname(__DIR__))) . '/data/logs.txt'
+			'to' => dirname(__DIR__) . '/data/logs.txt'
 		],
 
 		/**
