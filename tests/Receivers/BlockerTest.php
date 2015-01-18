@@ -9,7 +9,7 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 	{
 		$this->setExpectedException('Ionut\Sylar\WAF\Exceptions\BlockedIpException');
 
-		$config = include __DIR__ . '/../../src/Ionut/SecurityListener/config.php';
+		$config = include __DIR__ . '/../../src/config.php';
 		$config['receivers']['blocker'] =
 			[
 				'min_gravity' => 1
@@ -32,7 +32,7 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 
 	public function testWithoutException()
 	{
-		$config                         = include __DIR__ . '/../../src/Ionut/SecurityListener/config.php';
+		$config                         = include __DIR__ . '/../../src/config.php';
 		$config['receivers']['blocker'] =
 			[
 				'min_gravity' => 1

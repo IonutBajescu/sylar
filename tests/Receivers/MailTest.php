@@ -9,7 +9,7 @@ class MailTest extends PHPUnit_Framework_TestCase {
 
 	public function testIfListenerFireMailer()
 	{
-		$config = include __DIR__.'/../../src/Ionut/SecurityListener/config.php';
+		$config = include __DIR__.'/../../src/config.php';
 		// turn on mailer
 		$config['receivers']['mail'] = 
 			[
