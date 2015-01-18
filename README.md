@@ -1,4 +1,4 @@
-Security Listener - WAF
+Syler - Intrusion Detection System
 ================
 [![Latest Version](https://img.shields.io/packagist/v/ionut/securitylistener.svg?style=flat-square)](https://github.com/IonutBajescu/securitylistener/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
@@ -7,9 +7,9 @@ Security Listener - WAF
 [![Quality Score](https://img.shields.io/scrutinizer/g/IonutBajescu/securitylistener.svg?style=flat-square)](https://scrutinizer-ci.com/g/IonutBajescu/securitylistener)
 [![Total Downloads](https://img.shields.io/packagist/dt/ionut/securitylistener.svg?style=flat-square)](https://packagist.org/packages/ionut/securitylistener)
 
-SecurityListener is an open source `Web Application Firewall` && `Intrusion Detection System`.
+The Syler package is an open source `Web Application Firewall` && `Intrusion Detection System`.
 
-Little example:
+An example of Syler usage as a Web Application Firewall:
 ```php
 <?php
 require 'securitylistener/vendor/autoload.php';
@@ -23,11 +23,13 @@ try{
 	exit('Sorry, your IP is blocked by our WAF :(');
 }
 
-echo 'code protected from evil guys';
+echo 'this code is protected from evil guys';
 ```
 
 
-You can install Security Listener with `composer require ionut/securitylistener:*`
+### Installation method
+You can install the Syler package through composer, run the following command:
+`composer require ionut/securitylistener:*`
 
 
 License
