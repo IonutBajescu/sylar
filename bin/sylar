@@ -8,7 +8,7 @@ $commands = ['Tail'];
 
 $application = new Application();
 foreach($commands as $command) {
-    $instance = call_user_func([new ReflectionClass("Ionut\\SecurityListener\\Console\\Commands\\{$command}"), 'newInstance']);
+    $instance = call_user_func([new ReflectionClass("Ionut\\Sylar\\Console\\Commands\\{$command}"), 'newInstance']);
     $application->add($instance);
 }
 $application->run();

@@ -13,7 +13,7 @@ class LogTest extends PHPUnit_Framework_TestCase {
 				]
 			]
 		];
-		$listener = m::mock('\\Ionut\\SecurityListener\\Listener');
+		$listener = m::mock('\\Ionut\\Sylar\\Listener');
 		$listener->config = $config;
 
 		$log = new Ionut\Sylar\Receivers\Log($listener);
@@ -43,7 +43,7 @@ class LogTest extends PHPUnit_Framework_TestCase {
 
 	public function mockInput(array $input = array())
 	{
-		$mock = $this->getMock('Ionut\\SecurityListener\\Request');
+		$mock = $this->getMock('Ionut\\Sylar\\Request');
 	    $mock->expects($this->any())->method('getDataForTesting')->will($this->returnValue($input));
 		return $mock;
 	}

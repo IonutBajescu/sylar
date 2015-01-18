@@ -55,7 +55,7 @@ class Listener {
 	/**
 	 * Create a factory of class without bind manually dependencies.
 	 *
-	 * @return \\Ionut\\SecurityListener\\Listener
+	 * @return \\Ionut\\Sylar\\Listener
 	 */
 	static function factory()
 	{
