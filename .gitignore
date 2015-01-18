@@ -1,3 +1,4 @@
 vendor
 composer.phar
 .idea
+data/logs.txt
