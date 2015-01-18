@@ -37,5 +37,5 @@ return [
 		'blocker' => false
 	],
 
-	"filtersCollection" => "Ionut\\SecurityListener\\Filters\\Listener\\Collection"
+	"filtersCollection" => "Ionut\\Sylar\\Filters\\Listener\\Collection"
 ];

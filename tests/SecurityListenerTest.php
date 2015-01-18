@@ -85,7 +85,7 @@ class SecurityListenerTest extends PHPUnit_Framework_TestCase {
 
 	public function mockInput(array $input = array())
 	{
-		$mock = $this->getMock('Ionut\\SecurityListener\\Request');
+		$mock = $this->getMock('Ionut\\Sylar\\Request');
 	    $mock->expects($this->any())->method('getDataForTesting')->will($this->returnValue($input));
 		return $mock;
 	}
