@@ -1,6 +1,6 @@
 <?php
 
-$base = dirname(dirname(dirname(__DIR__)));
+$base = dirname(__DIR__);
 $vendorDir = dirname(dirname($base));
 
 if (file_exists($file = $base . '/vendor/autoload.php')) {
