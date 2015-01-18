@@ -1,8 +1,8 @@
 <?php
 
-use Ionut\SecurityListener\Listener as SecurityListener;
-use Ionut\SecurityListener\Request;
-use Ionut\SecurityListener\DynamicObject;
+use Ionut\Sylar\Listener as SecurityListener;
+use Ionut\Sylar\Request;
+use Ionut\Sylar\DynamicObject;
 use Mockery as m;
 
 class MailTest extends PHPUnit_Framework_TestCase {

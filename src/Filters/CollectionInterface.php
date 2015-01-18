@@ -1,4 +1,4 @@
-<?php namespace Ionut\SecurityListener\Filters;
+<?php namespace Ionut\Sylar\Filters;
 
 interface CollectionInterface {
 

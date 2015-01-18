@@ -1,6 +1,6 @@
-<?php namespace Ionut\SecurityListener\Filters\Listener;
+<?php namespace Ionut\Sylar\Filters\Listener;
 
-class Filter extends \Ionut\SecurityListener\Filters\FilterAbstract {
+class Filter extends \Ionut\Sylar\Filters\FilterAbstract {
 
 	/**
 	 * @var int

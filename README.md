@@ -1,4 +1,4 @@
-Syler - Intrusion Detection System
+Sylar - Intrusion Detection System
 ================
 [![Latest Version](https://img.shields.io/packagist/v/ionut/securitylistener.svg?style=flat-square)](https://github.com/IonutBajescu/securitylistener/releases)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
@@ -7,15 +7,15 @@ Syler - Intrusion Detection System
 [![Quality Score](https://img.shields.io/scrutinizer/g/IonutBajescu/securitylistener.svg?style=flat-square)](https://scrutinizer-ci.com/g/IonutBajescu/securitylistener)
 [![Total Downloads](https://img.shields.io/packagist/dt/ionut/securitylistener.svg?style=flat-square)](https://packagist.org/packages/ionut/securitylistener)
 
-The Syler package is an open source `Web Application Firewall` && `Intrusion Detection System`.
+The Sylar package is an open source `Web Application Firewall` && `Intrusion Detection System`.
 
-An example of Syler usage as a Web Application Firewall:
+An example of Sylar usage as a Web Application Firewall:
 ```php
 <?php
 require 'securitylistener/vendor/autoload.php';
 
-use Ionut\SecurityListener\Listener;
-use Ionut\SecurityListener\WAF\Exceptions\BlockedIpException;
+use Ionut\Sylar\Listener;
+use Ionut\Sylar\WAF\Exceptions\BlockedIpException;
 $listener = Listener::factory();
 try{
 	$listener->listen();
@@ -28,7 +28,7 @@ echo 'this code is protected from evil guys';
 
 
 ### Installation method
-You can install the Syler package through composer, run the following command:
+You can install the Sylar package through composer, run the following command:
 `composer require ionut/securitylistener:*`
 
 

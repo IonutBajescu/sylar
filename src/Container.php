@@ -1,4 +1,4 @@
-<?php namespace Ionut\SecurityListener;
+<?php namespace Ionut\Sylar;
 
 
 use Illuminate\Container\Container as BaseContainer;

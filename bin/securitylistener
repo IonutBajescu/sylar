@@ -2,7 +2,7 @@
 <?php
 include __DIR__ . '/../src/Ionut/SecurityListener/autoload.php';
 
-use \Ionut\SecurityListener\Console\Application;
+use \Ionut\Sylar\Console\Application;
 
 $commands = ['Tail'];
 

@@ -1,4 +1,4 @@
-<?php namespace Ionut\SecurityListener\WAF;
+<?php namespace Ionut\Sylar\WAF;
 
 
 class Storage implements StorageInterface {

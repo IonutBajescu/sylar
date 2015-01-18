@@ -1,13 +1,13 @@
 <?php
 
-use Ionut\SecurityListener\Listener as SecurityListener;
+use Ionut\Sylar\Listener as SecurityListener;
 use Mockery as m;
 
 class BlockerTest extends PHPUnit_Framework_TestCase {
 
 	public function testBasic()
 	{
-		$this->setExpectedException('Ionut\SecurityListener\WAF\Exceptions\BlockedIpException');
+		$this->setExpectedException('Ionut\Sylar\WAF\Exceptions\BlockedIpException');
 
 		$config = include __DIR__ . '/../../src/Ionut/SecurityListener/config.php';
 		$config['receivers']['blocker'] =
@@ -47,7 +47,7 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 
 	public function tearDown()
 	{
-		$storage = new \Ionut\SecurityListener\WAF\Storage();
+		$storage = new \Ionut\Sylar\WAF\Storage();
 		$storage->clear();
 	}
 }

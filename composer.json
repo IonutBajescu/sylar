@@ -1,7 +1,7 @@
 {
-    "name": "ionut/syler",
+    "name": "ionut/sylar",
     "type": "library",
-    "description": "...",
+    "description": "Syler it's the Intrusion Detection System that you can trust!",
     "keywords": ["security"],
     "homepage": "http://securitylistener.ionut-bajescu.com",
     "license": "MIT",
@@ -28,8 +28,8 @@
     },
 
     "autoload": {
-        "psr-0": {
-            "Ionut\\SecurityListener": "src"
+        "psr-4": {
+            "Ionut\\Sylar\\": "src"
         }
     },
 

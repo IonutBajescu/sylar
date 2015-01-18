@@ -1,11 +1,11 @@
-<?php namespace Ionut\SecurityListener\Filters\Listener;
+<?php namespace Ionut\Sylar\Filters\Listener;
 
-use Ionut\SecurityListener\Filters\CollectionInterface;
+use Ionut\Sylar\Filters\CollectionInterface;
 
 /**
  * Default filters collection for SecurityListener.
  *
- * @package Ionut\SecurityListener\Filters\Listener
+ * @package Ionut\Sylar\Filters\Listener
  */
 class Collection implements CollectionInterface {
 

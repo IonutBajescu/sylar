@@ -1,7 +1,7 @@
-<?php namespace Ionut\SecurityListener\Receivers;
+<?php namespace Ionut\Sylar\Receivers;
 
-use Ionut\SecurityListener\Alert;
-use Ionut\SecurityListener\Listener;
+use Ionut\Sylar\Alert;
+use Ionut\Sylar\Listener;
 
 class Mail extends Receiver {
 
