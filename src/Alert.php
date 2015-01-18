@@ -1,6 +1,6 @@
-<?php namespace Ionut\SecurityListener;
+<?php namespace Ionut\Sylar;
 
-use Ionut\SecurityListener\Filters\FilterAbstract;
+use Ionut\Sylar\Filters\FilterAbstract;
 
 class Alert {
 

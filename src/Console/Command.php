@@ -1,4 +1,4 @@
-<?php namespace Ionut\SecurityListener\Console;
+<?php namespace Ionut\Sylar\Console;
 
 class Command extends \Illuminate\Console\Command {
 

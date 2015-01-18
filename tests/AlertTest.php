@@ -1,6 +1,6 @@
 <?php
 
-use Ionut\SecurityListener\Filters\Listener\Filter;
+use Ionut\Sylar\Filters\Listener\Filter;
 
 /**
  * This class don't test anything. But it shows debug information.
@@ -18,7 +18,7 @@ class AlertTest extends PHPUnit_Framework_TestCase {
 		);
 
 		$alert = call_user_func_array(
-					array(new ReflectionClass('Ionut\SecurityListener\Alert'), 'newInstance'),
+					array(new ReflectionClass('Ionut\Sylar\Alert'), 'newInstance'),
 					func_get_args()
 				);
 

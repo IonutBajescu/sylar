@@ -1,4 +1,4 @@
-<?php namespace Ionut\SecurityListener;
+<?php namespace Ionut\Sylar;
 
 
 /**
@@ -20,7 +20,7 @@ class Listener {
 	 */
 	public $waf;
 
-	public $receiveNotify = ['Ionut\SecurityListener\Receivers\Mail', 'Ionut\SecurityListener\Receivers\Log', 'Ionut\SecurityListener\Receivers\Blocker'];
+	public $receiveNotify = ['Ionut\Sylar\Receivers\Mail', 'Ionut\Sylar\Receivers\Log', 'Ionut\Sylar\Receivers\Blocker'];
 	public $receivers;
 	public $container;
 	public $config;

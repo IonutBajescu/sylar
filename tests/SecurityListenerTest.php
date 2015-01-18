@@ -1,7 +1,7 @@
 <?php
 
-use Ionut\SecurityListener\Listener as SecurityListener;
-use Ionut\SecurityListener\Request;
+use Ionut\Sylar\Listener as SecurityListener;
+use Ionut\Sylar\Request;
 
 
 class SecurityListenerTest extends PHPUnit_Framework_TestCase {
