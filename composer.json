@@ -33,5 +33,5 @@
         }
     },
 
-    "bin": ["bin/securitylistener"]
+    "bin": ["bin/sylar"]
 }
