@@ -1,6 +1,6 @@
 <?php
 
-use Ionut\Sylar\Listener as SecurityListener;
+use Ionut\Sylar\Guardian as SecurityListener;
 use Ionut\Sylar\Request;
 use Ionut\Sylar\DynamicObject;
 use Mockery as m;
@@ -22,7 +22,7 @@ class MailTest extends PHPUnit_Framework_TestCase {
 		$listener->config = (object)$config;
 
 		$mailerFired = false;
-		$listener->container->bind('Swift_MailTransport', function() use(&$mailerFired){
+		$listener->enviroment->bind('Swift_MailTransport', function() use(&$mailerFired){
 			$mocked = new DynamicObject;
 			$mocked->send = function() use(&$mailerFired){
 				$mailerFired = true;

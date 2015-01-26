@@ -1,6 +1,12 @@
 <?php namespace Ionut\Sylar;
 
 class Request {
+	protected $input;
+
+	function __construct()
+	{
+		$this->input = [$_REQUEST, ['REQUEST_URI' => 0, 'QUERY_STRING' => 0] + $_SERVER];
+	}
 
 	/**
 	 * Get all request parameters for tests.
@@ -13,7 +19,23 @@ class Request {
 	 */
 	public function getDataForTesting()
 	{
-		return [$_REQUEST, ['REQUEST_URI' => 0, 'QUERY_STRING' => 0] + $_SERVER];
+		return $this->input;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getInput()
+	{
+		return $this->input;
+	}
+
+	/**
+	 * @param array $input
+	 */
+	public function setInput($input)
+	{
+		$this->input = $input;
 	}
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-use Ionut\Sylar\Listener as SecurityListener;
+use Ionut\Sylar\Guardian as SecurityListener;
 use Mockery as m;
 
 class BlockerTest extends PHPUnit_Framework_TestCase {

@@ -1,6 +1,6 @@
 <?php
 
-use Ionut\Sylar\Filters\Listener\Filter;
+use Ionut\Sylar\Filters\TheDefault\Filter;
 
 /**
  * This class don't test anything. But it shows debug information.

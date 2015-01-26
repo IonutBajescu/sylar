@@ -14,11 +14,11 @@ An example of Sylar usage as a Web Application Firewall:
 <?php
 require 'securitylistener/vendor/autoload.php';
 
-use Ionut\Sylar\Listener;
+use Ionut\Sylar\Guardian;
 use Ionut\Sylar\WAF\Exceptions\BlockedIpException;
-$listener = Listener::factory();
+$guardian = new Guardian;
 try{
-	$listener->listen();
+	$guardian->listen();
 } catch(BlockedIpException $e){
 	exit('Sorry, your IP is blocked by our WAF :(');
 }

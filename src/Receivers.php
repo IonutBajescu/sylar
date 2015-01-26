@@ -6,7 +6,7 @@ class Receivers extends Container {
 	protected $listener;
 
 
-	public function __construct(Listener $listener)
+	public function __construct(Guardian $listener)
 	{
 		$this->listener = $listener;
 	}

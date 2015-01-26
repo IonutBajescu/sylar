@@ -1,4 +1,4 @@
-<?php namespace Ionut\Sylar\Filters\Listener;
+<?php namespace Ionut\Sylar\Filters\TheDefault;
 
 class Filter extends \Ionut\Sylar\Filters\FilterAbstract {
 

@@ -1,16 +1,16 @@
 <?php namespace Ionut\Sylar\Receivers;
 
 use Ionut\Sylar\Alert;
-use Ionut\Sylar\Listener;
+use Ionut\Sylar\Guardian;
 
 abstract class Receiver {
 
 	/**
-	 * @var Listener
+	 * @var Guardian
 	 */
 	public $listener;
 
-	abstract public function __construct(Listener $listener);
+	abstract public function __construct(Guardian $listener);
 
 	abstract public function call(Alert $alert);
 

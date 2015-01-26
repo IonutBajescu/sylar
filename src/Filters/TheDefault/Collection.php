@@ -1,13 +1,13 @@
-<?php namespace Ionut\Sylar\Filters\Listener;
+<?php namespace Ionut\Sylar\Filters\TheDefault;
 
-use Ionut\Sylar\Filters\CollectionInterface;
+use Ionut\Sylar\Filters\BaseCollection;
 
 /**
  * Default filters collection for SecurityListener.
  *
- * @package Ionut\Sylar\Filters\Listener
+ * @package Ionut\Sylar\Filters\Guardian
  */
-class Collection implements CollectionInterface {
+class Collection extends BaseCollection {
 
 	protected $filters;
 
@@ -24,16 +24,9 @@ class Collection implements CollectionInterface {
 	{
 		$data = json_decode(file_get_contents($this->getFilePath()));
 		foreach ($data->filters as $filter) {
-			$this->filters[] = new Filter($filter->pattern, $filter->gravity, $filter->desc, $filter->type);
+			$filter = new Filter($filter->pattern, $filter->gravity, $filter->desc, $filter->type);
+			$this->push($filter);
 		}
-	}
-
-	/**
-	 * @return mixed
-	 */
-	public function all()
-	{
-		return $this->filters;
 	}
 
 	/**
