@@ -1,11 +1,11 @@
 <?php namespace Ionut\Sylar\Receivers;
 
 use Ionut\Sylar\Alert;
-use Ionut\Sylar\Listener;
+use Ionut\Sylar\Guardian;
 
 class Blocker extends Receiver {
 
-	public function __construct(Listener $listener)
+	public function __construct(Guardian $listener)
 	{
 		$this->listener = $listener;
 	}

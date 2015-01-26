@@ -1,11 +1,11 @@
 <?php namespace Ionut\Sylar\Receivers;
 
 use Ionut\Sylar\Alert;
-use Ionut\Sylar\Listener;
+use Ionut\Sylar\Guardian;
 
 class Mail extends Receiver {
 
-	public function __construct(Listener $listener)
+	public function __construct(Guardian $listener)
 	{
 		$this->listener = $listener;
 	}
@@ -19,7 +19,7 @@ class Mail extends Receiver {
 	{
 		$config = $this->listener->config->receivers['mail'];
 
-		$m = $this->listener->container->make('Swift_Message');
+		$m = $this->listener->enviroment->make('Swift_Message');
 		$m = $m
 			->setSubject($config['subject'])
 			->setFrom($config['from'])
@@ -29,7 +29,7 @@ class Mail extends Receiver {
 		/**
 		 * @todo Add option to use a different transport.
 		 */
-		$mailer = $this->listener->container->make('Swift_MailTransport');
+		$mailer = $this->listener->enviroment->make('Swift_MailTransport');
 
 		return $mailer->send($m);
 	}

@@ -1,5 +1,5 @@
 <?php
-use Ionut\Sylar\Listener as SecurityListener;
+use Ionut\Sylar\Guardian as SecurityListener;
 use Mockery as m;
 
 class LogTest extends PHPUnit_Framework_TestCase {
@@ -13,12 +13,12 @@ class LogTest extends PHPUnit_Framework_TestCase {
 				]
 			]
 		];
-		$listener = m::mock('\\Ionut\\Sylar\\Listener');
+		$listener = m::mock('\\Ionut\\Sylar\\Guardian');
 		$listener->config = $config;
 
 		$log = new Ionut\Sylar\Receivers\Log($listener);
 
-		$filter = new \Ionut\Sylar\Filters\Listener\Filter(null, null, null, null);
+		$filter = new \Ionut\Sylar\Filters\TheDefault\Filter(null, null, null, null);
 		$alert = new \Ionut\Sylar\Alert($filter, null, null);
 		$this->assertTrue($log->call($alert));
 	}

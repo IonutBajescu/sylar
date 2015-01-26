@@ -37,5 +37,5 @@ return [
 		'blocker' => false
 	],
 
-	"filtersCollection" => "Ionut\\Sylar\\Filters\\Listener\\Collection"
+	"filtersCollection" => "Ionut\\Sylar\\Filters\\TheDefault\\Collection"
 ];

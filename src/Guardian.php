@@ -1,10 +1,6 @@
 <?php namespace Ionut\Sylar;
 
-
-/**
- * SecurityListener - Listen for security tests made on your site.
- */
-class Listener {
+class Guardian {
 
 	public $types = [
 		'low',
@@ -22,26 +18,26 @@ class Listener {
 
 	public $receiveNotify = ['Ionut\Sylar\Receivers\Mail', 'Ionut\Sylar\Receivers\Log', 'Ionut\Sylar\Receivers\Blocker'];
 	public $receivers;
-	public $container;
+	public $enviroment;
 	public $config;
-	public $request;
 
 	/**
-	 * @var Filters\CollectionInterface
+	 * @var Filters\BaseCollection
 	 */
 	protected $collection;
 
 	/**
-	 * @param Request $request
+	 * @param Request $requestReplace
 	 */
-	public function __construct(Request $request)
+	public function __construct($requestReplace = null)
 	{
 
 		$this->config    = $this->setConfigFile('config.php');
 
-		$this->request   = $request;
-
-		$this->container = new Container;
+		$this->enviroment = new Environment();
+		if($requestReplace){
+			$this->enviroment->request = $requestReplace;
+		}
 
 		$this->receivers = new Receivers($this);
 		$this->receivers->bindReceivers($this->receiveNotify);
@@ -50,18 +46,6 @@ class Listener {
 		$this->waf        = new WAF\Manager($this->wafStorage);
 
 		$this->collection = new $this->config->filtersCollection;
-	}
-
-	/**
-	 * Create a factory of class without bind manually dependencies.
-	 *
-	 * @return \\Ionut\\Sylar\\Listener
-	 */
-	static function factory()
-	{
-		$request = new Request;
-
-		return new self($request);
 	}
 
 	/**
@@ -75,10 +59,14 @@ class Listener {
 			$this->waf->listen();
 		}
 
-		$errors = $this->sendInputToFilters();
+		$alerts = $this->examineTheRequest();
 
-		foreach ($errors as $summary) {
-			$this->receivers->send($summary);
+		$alerts->each(function($alert){
+			$this->receivers->send($alert);
+		});
+
+		if($alerts->count()){
+			$this->enviroment->events->fire('attacked', [$alerts]);
 		}
 	}
 
@@ -89,31 +77,31 @@ class Listener {
 	 *
 	 * @param  array $params
 	 *
-	 * @return array Alerts with matched intrusions.
+	 * @return AlertsBag Alerts with matched intrusions.
 	 */
-	public function sendInputToFilters(array $params = null)
+	public function examineTheRequest(array $params = null)
 	{
 		$params = $params ?: $this->request->getDataForTesting();
 
-		$errors = [];
+		$alerts = new AlertsBag;
 		foreach ($params as $k => $v) {
 			if (is_array($v)) {
 				if (empty($v)) {
 					continue;
 				}
-				$errors = array_merge($errors, $this->sendInputToFilters($v));
+				$alerts = $alerts->merge($this->examineTheRequest($v));
 			} else {
-				// check all filters
-				foreach($this->collection->all() as $filter){
+				$f = function($filter) use($k, $v, $alerts){
 					/* @var $filter Filters\FilterAbstract **/
 					if($filter->match($v)){
-						$errors[] = new Alert($filter, $k, $v);
+						$alerts->push($alert = new Alert($filter, $k, $v));
 					}
-				}
+				};
+				$this->collection->each($f);
 			}
 		}
 
-		return $errors;
+		return $alerts;
 	}
 
 
@@ -133,7 +121,6 @@ class Listener {
 
 		return [false, false];
 	}
-
 
 	/**
 	 * @param array $config
@@ -156,4 +143,13 @@ class Listener {
 		return $this->setConfig(require $file);
 	}
 
+	public function when($k, $closure)
+	{
+		return $this->enviroment->events->listen($k, $closure);
+	}
+
+	public function __get($k)
+	{
+		return $this->enviroment[$k];
+	}
 }

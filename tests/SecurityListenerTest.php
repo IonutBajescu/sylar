@@ -1,6 +1,6 @@
 <?php
 
-use Ionut\Sylar\Listener as SecurityListener;
+use Ionut\Sylar\Guardian as SecurityListener;
 use Ionut\Sylar\Request;
 
 
@@ -10,9 +10,8 @@ class SecurityListenerTest extends PHPUnit_Framework_TestCase {
 	{
 		$input = ['id' => "50'"];;
 		$request = $this->mockInput($input);
-
 		$listener = new SecurityListener($request);
-		$errors = $listener->sendInputToFilters();
+		$errors = $listener->examineTheRequest();
 		$this->assertCount(2, $errors);
 	}
 
@@ -85,8 +84,8 @@ class SecurityListenerTest extends PHPUnit_Framework_TestCase {
 
 	public function mockInput(array $input = array())
 	{
-		$mock = $this->getMock('Ionut\\Sylar\\Request');
-	    $mock->expects($this->any())->method('getDataForTesting')->will($this->returnValue($input));
-		return $mock;
+		$request = new Request();
+		$request->setInput($input);
+		return $request;
 	}
 }
