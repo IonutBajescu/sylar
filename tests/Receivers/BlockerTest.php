@@ -16,7 +16,7 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 			];
 
 		$listener         = new SecurityListener($this->mockInput(['sql' => "-1 order by 6-- -"]));
-		$listener->config = (object)$config;
+		$listener->setConfig($config);
 		$listener->waf->setIp(microtime());
 
 		$listener->listen();
@@ -39,7 +39,7 @@ class BlockerTest extends PHPUnit_Framework_TestCase {
 			];
 
 		$listener         = new SecurityListener($this->mockInput(['sql' => "this is a normal string"]));
-		$listener->config = (object)$config;
+		$listener->setConfig($config);
 		$listener->waf->setIp(microtime());
 
 		$listener->listen();

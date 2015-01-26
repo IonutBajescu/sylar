@@ -19,7 +19,7 @@ class Guardian {
 	public $receiveNotify = ['Ionut\Sylar\Receivers\Mail', 'Ionut\Sylar\Receivers\Log', 'Ionut\Sylar\Receivers\Blocker'];
 	public $receivers;
 	public $enviroment;
-	public $config;
+	public $config = [];
 
 	/**
 	 * @var Filters\BaseCollection
@@ -31,8 +31,9 @@ class Guardian {
 	 */
 	public function __construct($requestReplace = null)
 	{
+		require __DIR__.'/Support/helpers.php';
 
-		$this->config    = $this->setConfigFile('config.php');
+		$this->setConfigFile('config.php');
 
 		$this->enviroment = new Environment();
 		if($requestReplace){
@@ -45,7 +46,7 @@ class Guardian {
 		$this->wafStorage = new WAF\Storage();
 		$this->waf        = new WAF\Manager($this->wafStorage);
 
-		$this->collection = new $this->config->filtersCollection;
+		$this->collection = new $this->config['filtersCollection'];
 	}
 
 	/**
@@ -55,7 +56,7 @@ class Guardian {
 	 */
 	public function listen()
 	{
-		if ($this->config->receivers['blocker']) {
+		if ($this->config['receivers']['blocker']) {
 			$this->waf->listen();
 		}
 
@@ -129,9 +130,8 @@ class Guardian {
 	 */
 	public function setConfig(array $config)
 	{
-		return $this->config = (object)$config;
+		return $this->config = config_merge($this->config, $config);
 	}
-
 
 	/**
 	 * @param $file
