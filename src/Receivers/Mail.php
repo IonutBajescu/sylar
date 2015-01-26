@@ -17,7 +17,7 @@ class Mail extends Receiver {
 
 	protected function sendMail($message)
 	{
-		$config = $this->listener->config->receivers['mail'];
+		$config = $this->listener->config['receivers']['mail'];
 
 		$m = $this->listener->enviroment->make('Swift_Message');
 		$m = $m

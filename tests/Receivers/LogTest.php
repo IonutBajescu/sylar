@@ -1,20 +1,21 @@
 <?php
 use Ionut\Sylar\Guardian as SecurityListener;
+use Ionut\Sylar\Guardian;
 use Mockery as m;
 
 class LogTest extends PHPUnit_Framework_TestCase {
 
 	public function testBasicLog()
 	{
-		$config = (object)[
+		$config = [
 			'receivers' => [
 				'log' => [
 					'to' => dirname(dirname(__DIR__)).'/data/logs.txt'
 				]
 			]
 		];
-		$listener = m::mock('\\Ionut\\Sylar\\Guardian');
-		$listener->config = $config;
+		$listener = new Guardian();
+		$listener->setConfig($config);
 
 		$log = new Ionut\Sylar\Receivers\Log($listener);
 
@@ -33,7 +34,7 @@ class LogTest extends PHPUnit_Framework_TestCase {
 		foreach($vectors as $vector){
 			$request = $this->mockInput([$vector]);
 			$SL      = new SecurityListener($request);
-			$SL->config->receivers['log'] = ['to' => $logFile];
+			$SL->setConfig(['receivers' => ['to' => $logFile]]);
 			$SL->listen();
 
 			$this->assertNotEquals($lastContent, $lastContent = file_get_contents($logFile));

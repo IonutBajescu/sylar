@@ -19,7 +19,7 @@ class MailTest extends PHPUnit_Framework_TestCase {
 			];
 
 		$listener = new SecurityListener($this->mockInput(['sql' => "1337'"]));
-		$listener->config = (object)$config;
+		$listener->setConfig($config);
 
 		$mailerFired = false;
 		$listener->enviroment->bind('Swift_MailTransport', function() use(&$mailerFired){

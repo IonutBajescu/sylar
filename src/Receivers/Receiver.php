@@ -21,7 +21,7 @@ abstract class Receiver {
 
 	public function getConfig()
 	{
-		return $this->listener->config->receivers[$this->getShortName()];
+		return $this->listener->config['receivers'][$this->getShortName()];
 	}
 
 	public function getShortName()

@@ -27,7 +27,7 @@ class Log extends Receiver {
 
 	public function openLogFile()
 	{
-		$file = $this->listener->config->receivers['log']['to'];
+		$file = $this->listener->config['receivers']['log']['to'];
 
 		return fopen($file, 'a+');
 	}
