@@ -1,8 +1,8 @@
 {
     "name": "ionut/sylar",
     "type": "library",
-    "description": "Sylar it's the Intrusion Detection System that you can trust!",
-    "keywords": ["security"],
+    "description": "Sylar it's the Intrusion Detection System(IDS) which you can trust!",
+    "keywords": ["security", "ids", "waf"],
     "homepage": "http://securitylistener.ionut-bajescu.com",
     "license": "MIT",
     "authors": [
