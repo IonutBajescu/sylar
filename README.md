@@ -8,31 +8,18 @@ Sylar - Intrusion Detection System
 [![Total Downloads](https://img.shields.io/packagist/dt/ionut/sylar.svg?style=flat-square)](https://packagist.org/packages/ionut/sylar)
 
 
-Sylar is an open source `Intrusion Detection System` that in some cases might be configured to act as an `Web Application Firewall`.
+Sylar is a framework-agnostic open source `Intrusion Detection System`.
 
-Since version 0.8 it only supports Laravel 5!
+The idea behind this project is as simple as the fingerprint Touch ID technology. It offers a convenient and drop-in solution for the ones that otherwise would not have any security precaution installed.
+While an IDS bundled with the application will never compete with one that acts on the network, Sylar aims for ease of use and it succeeds in providing the most security given the low resources it uses (taking both time and computing power in consideration).
 
-An example of instantiating a basic WAF:
-```php
-<?php
-require 'vendor/autoload.php';
-
-use Ionut\Sylar\Guardian;
-use Ionut\Sylar\WAF\Exceptions\BlockedIpException;
-$guardian = new Guardian;
-try{
-	$guardian->listen();
-} catch(BlockedIpException $e){
-	exit('Sorry, your IP was blocked by our WAF!');
-}
-
-echo 'this page is protected from evil guys';
-```
-
-
-### Installation method
-The recommended method is through composer, with the following command:
+### Installation
 `composer require ionut/sylar`
+
+### Usage
+```php
+
+```
 
 
 License

@@ -15,24 +15,19 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "illuminate/console": ">=5",
-        "illuminate/container": ">=5",
-        "illuminate/events": ">=5",
-        "swiftmailer/swiftmailer": "~5"
+        "phpunit/phpunit": "^5.3",
+        "zendframework/zend-diactoros": "^1.3",
+        "monolog/monolog": "^1.19"
 
     },
-
     "require-dev": {
-        "php": ">=5.4.0",
-        "phpunit/phpunit": "4.1.*",
-        "mockery/mockery": "0.9.1"
+        "php": ">=5.4.0"
     },
-
     "autoload": {
         "psr-4": {
-            "Ionut\\Sylar\\": "src"
+            "Ionut\\Sylar\\": "src",
+            "Ionut\\Sylar\\Tests\\": "tests"
         }
     },
-
     "bin": ["bin/sylar"]
 }
