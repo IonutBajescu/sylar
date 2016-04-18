@@ -3,8 +3,6 @@
 namespace Ionut\Sylar;
 
 
-use Ionut\Sylar\Filters\FilterReportInterface;
-
 class Receivers
 {
     /**
@@ -12,11 +10,19 @@ class Receivers
      */
     protected $items;
 
+    /**
+     * @param array $items
+     */
     public function __construct(array $items = [])
     {
         $this->items = $items;
     }
 
+    /**
+     * Broadcast a given report to the receivers.
+     *
+     * @param Report $report
+     */
     public function broadcast(Report $report)
     {
         foreach ($this->items as $receiver) {

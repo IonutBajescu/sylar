@@ -2,7 +2,6 @@
 
 namespace Ionut\Sylar\Filters\PHPIDS;
 
-
 use Ionut\Sylar\Filters\FilterInterface;
 
 class Filter implements FilterInterface
@@ -29,7 +28,7 @@ class Filter implements FilterInterface
     {
         foreach ($this->filters as $filter) {
             if ($this->checkAgainstRule($filter->rule, $value)) {
-                return new FilterReport($filter, $value);
+                return new Report($filter, $value);
             }
         }
     }

@@ -18,20 +18,33 @@ class Report
      */
     protected $filterReport;
 
+    /**
+     * @param ServerRequestInterface $request
+     * @param FilterReportInterface  $filterReport
+     */
     public function __construct(ServerRequestInterface $request, FilterReportInterface $filterReport)
     {
         $this->request = $request;
         $this->filterReport = $filterReport;
     }
 
-    public function format()
+    /**
+     * Export the report to a human-readable string.
+     *
+     * @return string
+     */
+    public function __toString()
     {
         $datetime = (new \DateTime())->format(\DateTime::ISO8601);
-        return <<<REPORT
-[$datetime] {$this->request->getUri()}
 
-{$this->filterReport->format()}
-REPORT;
+        return "[$datetime] {$this->request->getUri()}\n\n{$this->filterReport}";
+    }
 
+    /**
+     * @return FilterReportInterface
+     */
+    public function getFilterReport()
+    {
+        return $this->filterReport;
     }
 }

@@ -3,10 +3,13 @@
 namespace Ionut\Sylar\Receivers;
 
 
+use Ionut\Sylar\Report;
 use Psr\Log\LoggerInterface;
 
 class PsrLogger
 {
+    use ReactBasedOnTreshold;
+
     /**
      * @var LoggerInterface
      */
@@ -19,6 +22,6 @@ class PsrLogger
 
     public function receive(Report $report)
     {
-        
+        $this->logger->emergency($report);
     }
 }

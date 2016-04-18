@@ -5,7 +5,7 @@ namespace Ionut\Sylar\Filters\PHPIDS;
 
 use Ionut\Sylar\Filters\FilterReportInterface;
 
-class FilterReport implements FilterReportInterface
+class Report implements FilterReportInterface
 {
     /**
      * @var \stdClass
@@ -30,13 +30,15 @@ class FilterReport implements FilterReportInterface
     /**
      * @return string
      */
-    public function format()
+    public function __toString()
     {
         return "{$this->formatRuleTags()} RULE{$this->filter->id} \"{$this->filter->description}\"";
     }
+    
+    
 
     /**
-     * @return mixed
+     * @return string
      */
     protected function formatRuleTags()
     {
