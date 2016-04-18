@@ -1,0 +1,3 @@
+- Make use of PSR-7.
+- Make use of Monolog.
+- Use the PHPIDS filters.
