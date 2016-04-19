@@ -7,19 +7,37 @@ Sylar - Intrusion Detection System
 [![Quality Score](https://img.shields.io/scrutinizer/g/IonutBajescu/sylar.svg?style=flat-square)](https://scrutinizer-ci.com/g/IonutBajescu/sylar)
 [![Total Downloads](https://img.shields.io/packagist/dt/ionut/sylar.svg?style=flat-square)](https://packagist.org/packages/ionut/sylar)
 
+Sylar is a framework-agnostic IDS - Intrusion Detection System. It supports PSR-7 requests and PSR-3 loggers.
 
-Sylar is a framework-agnostic open source `Intrusion Detection System`.
 
-The idea behind this project is as simple as the fingerprint Touch ID technology. It offers a convenient and drop-in solution for the ones that otherwise would not have any security precaution installed.
-While an IDS bundled with the application will never compete with one that acts on the network, Sylar aims for ease of use and it succeeds in providing the most security given the low resources it uses (taking both time and computing power in consideration).
-
-### Installation
-`composer require ionut/sylar`
-
-### Usage
+### Quick start
 ```php
+<?php
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Ionut\Sylar\Reactor;
+
+// $logger can be whatever logger you prefer as long as it adheres to PSR-3.
+// Our recommended choice would be Monolog.
+$logger = new Logger('ids');
+$logger->pushHandler(new StreamHandler('path/to/your.log'));
+
+$sylar = Reactor::factory($logger);
+// $request has to be passed by your framework of choice.
+$sylar->digest($request);
 ```
+
+### Symfony
+http://symfony.com/doc/current/cookbook/psr7.html
+
+### Laravel
+https://laravel.com/docs/5.1/requests#psr7-requests
+
+### Standalone applications
+We respect people's decisions of not using any framework. Fortunately for you Sylar is not tied to any framework, all it needs is a PSR-7 compatible request and it works!
+
+If you want to use Sylar in a standalone application you might want to check out [zend-diactoros](https://github.com/zendframework/zend-diactoros)
 
 
 License
