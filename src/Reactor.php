@@ -3,11 +3,12 @@
 namespace Ionut\Sylar;
 
 
-use Ionut\Sylar\Receivers\PsrLogger;
+use Ionut\Sylar\Filters\FilterReportInterface;
+use Ionut\Sylar\Reactions\PsrLogger;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
-class Handler
+class Reactor
 {
     /**
      * @var Filters
@@ -15,18 +16,18 @@ class Handler
     protected $filters;
 
     /**
-     * @var Receivers
+     * @var array
      */
-    protected $receivers;
+    protected $reactions;
 
     /**
      * @param Filters $filters
-     * @param Receivers $receivers
+     * @param array   $reactions
      */
-    public function __construct(Filters $filters, Receivers $receivers)
+    public function __construct(Filters $filters, array $reactions = [])
     {
         $this->filters = $filters;
-        $this->receivers = $receivers;
+        $this->reactions = $reactions;
     }
 
     /**
@@ -35,15 +36,15 @@ class Handler
      * @param  LoggerInterface  $logger
      * @return static
      */
-    static public function factory(LoggerInterface $logger)
+    static public function factory(LoggerInterface $logger, $threshold = 0)
     {
         return new static(
             new Filters([
                 new \Ionut\Sylar\Filters\PHPIDS\Filter
             ]),
-            new Receivers([
-                new PsrLogger($logger)
-            ])
+            [
+                new PsrLogger($logger, $threshold)
+            ]
         );
     }
 
@@ -58,9 +59,24 @@ class Handler
 
         array_walk_recursive($parameters, function ($value) use($request) {
             foreach ($this->filters->matches($value) as $filterReport) {
-                $this->receivers->broadcast(new Report($request, $filterReport));
+                $this->broadcast($request, $filterReport);
             }
         });
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @param FilterReportInterface  $filterReport
+     */
+    public function broadcast(ServerRequestInterface $request, FilterReportInterface $filterReport)
+    {
+        $report = new Report($request, $filterReport);
+
+        foreach ($this->reactions as $reaction) {
+            if ($reaction->shouldReact($report)) {
+                $reaction->reactTo($report);
+            }
+        }
     }
 
     /**

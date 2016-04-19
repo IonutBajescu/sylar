@@ -5,10 +5,13 @@ namespace Ionut\Sylar\Filters;
 
 interface FilterReportInterface
 {
+    /**
+     * @return string
+     */
     public function __toString();
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getImpact();
 }

@@ -10,7 +10,7 @@ class Report implements FilterReportInterface
     /**
      * @var \stdClass
      */
-    protected $filter;
+    protected $rule;
 
     /**
      * @var string
@@ -18,12 +18,12 @@ class Report implements FilterReportInterface
     protected $value;
 
     /**
-     * @param  \stdClass  $filter
+     * @param  \stdClass  $rule
      * @param  string     $value
      */
-    public function __construct(\stdClass $filter, $value)
+    public function __construct(\stdClass $rule, $value)
     {
-        $this->filter = $filter;
+        $this->rule  = $rule;
         $this->value = $value;
     }
 
@@ -32,16 +32,22 @@ class Report implements FilterReportInterface
      */
     public function __toString()
     {
-        return "{$this->formatRuleTags()} RULE{$this->filter->id} \"{$this->filter->description}\"";
+        return "{$this->formatRuleTags()} RULE{$this->rule->id} \"{$this->rule->description}\"";
     }
     
-    
-
     /**
      * @return string
      */
     protected function formatRuleTags()
     {
-        return strtoupper(implode(', ', $this->filter->tags->tag));
+        return strtoupper(implode(', ', $this->rule->tags->tag));
+    }
+
+    /**
+     * @return int
+     */
+    public function getImpact()
+    {
+        return $this->rule->impact;
     }
 }

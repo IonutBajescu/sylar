@@ -15,6 +15,6 @@ trait ReactBasedOnThreshold
 
     public function shouldReact(Report $report)
     {
-        $report->getFilterReport()->
+        return $report->getFilterReport()->getImpact() > $this->threshold;
     }
 }

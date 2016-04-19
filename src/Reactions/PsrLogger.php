@@ -1,26 +1,27 @@
 <?php
 
-namespace Ionut\Sylar\Receivers;
+namespace Ionut\Sylar\Reactions;
 
 
 use Ionut\Sylar\Report;
 use Psr\Log\LoggerInterface;
 
-class PsrLogger
+class PsrLogger implements ReactionInterface
 {
-    use ReactBasedOnTreshold;
+    use Traits\ReactBasedOnThreshold;
 
     /**
      * @var LoggerInterface
      */
     protected $logger;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, $threshold = 0)
     {
         $this->logger = $logger;
+        $this->threshold = $threshold;
     }
 
-    public function receive(Report $report)
+    public function reactTo(Report $report)
     {
         $this->logger->emergency($report);
     }
