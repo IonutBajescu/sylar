@@ -7,3 +7,4 @@ Refactor TODO:
 - Add overall impact (sum impact of matching rules)
 - Extract Reports' __toString in a ReportTextFormatter
 - Normalize request data (see expose's Converter namespace)
+- Create a separate project for a dashboard.
