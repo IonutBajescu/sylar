@@ -58,20 +58,17 @@ class Reactor
         $parameters = $this->getVerifiableParameters($request);
 
         array_walk_recursive($parameters, function ($value) use($request) {
-            foreach ($this->filters->matches($value) as $filterReport) {
-                $this->broadcast($request, $filterReport);
+            if ($filterReports = $this->filters->matches($value)) {
+                $this->broadcast(new Report(iterator_to_array($filterReports), $request));
             }
         });
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @param FilterReportInterface  $filterReport
+     * @param Report $report
      */
-    public function broadcast(ServerRequestInterface $request, FilterReportInterface $filterReport)
+    public function broadcast(Report $report)
     {
-        $report = new Report($request, $filterReport);
-
         foreach ($this->reactions as $reaction) {
             if ($reaction->shouldReact($report)) {
                 $reaction->reactTo($report);

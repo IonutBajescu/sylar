@@ -6,26 +6,42 @@ namespace Ionut\Sylar;
 use Ionut\Sylar\Filters\FilterReportInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * Sums all the FilterReports for the current request.
+ */
 class Report
 {
+
+    /**
+     * @var FilterReportInterface[]
+     */
+    protected $filterReports;
+
     /**
      * @var ServerRequestInterface
      */
     protected $request;
 
     /**
-     * @var FilterReportInterface
+     * @param  FilterReportInterface[]  $filterReports
+     * @param  ServerRequestInterface   $request
      */
-    protected $filterReport;
+    public function __construct(array $filterReports, ServerRequestInterface $request)
+    {
+        $this->filterReports = $filterReports;
+        $this->request = $request;
+    }
 
     /**
-     * @param ServerRequestInterface $request
-     * @param FilterReportInterface  $filterReport
+     * Calculate the total impact of the contained filter reports.
+     *
+     * @return int
      */
-    public function __construct(ServerRequestInterface $request, FilterReportInterface $filterReport)
+    public function getTotalImpact()
     {
-        $this->request = $request;
-        $this->filterReport = $filterReport;
+        return array_reduce($this->filterReports, function($carry, FilterReportInterface $filterReport) {
+            return $carry + $filterReport->getImpact();
+        });
     }
 
     /**
@@ -37,14 +53,7 @@ class Report
     {
         $datetime = (new \DateTime())->format(\DateTime::ISO8601);
 
-        return "[$datetime] {$this->request->getUri()}\n\n{$this->filterReport}";
-    }
-
-    /**
-     * @return FilterReportInterface
-     */
-    public function getFilterReport()
-    {
-        return $this->filterReport;
+        $filterReports = implode("\n\n", $this->filterReports);
+        return "[$datetime] {$this->request->getUri()}\n\n{$filterReports}";
     }
 }

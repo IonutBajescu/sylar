@@ -13,14 +13,18 @@ Sylar is a framework-agnostic open source `Intrusion Detection System`.
 The idea behind this project is as simple as the fingerprint Touch ID technology. It offers a convenient and drop-in solution for the ones that otherwise would not have any security precaution installed.
 While an IDS bundled with the application will never compete with one that acts on the network, Sylar aims for ease of use and it succeeds in providing the most security given the low resources it uses (taking both time and computing power in consideration).
 
-### Installation
+## Installation
 `composer require ionut/sylar`
 
-### Usage
+## Usage
 ```php
 
 ```
 
+## Dashboard
+Intrusion Detection Systems aren't fun without a fancy dashboard that you can look all day long and amuse yourself with all the automated software trying to intrude in your website.
+
+Shortly after the launch of 1.0 a Sylar dashboard will be released open source.
 
 License
 ---------------------
