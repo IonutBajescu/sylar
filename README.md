@@ -23,7 +23,6 @@ use Ionut\Sylar\Reactor;
 // Our recommended choice would be Monolog.
 $logger = new Logger('ids');
 $logger->pushHandler(new StreamHandler('path/to/your.log'));
->>>>>>> 21ded706c5c95b476018d722908b57aff8550afb
 
 $sylar = Reactor::factory($logger);
 // $request has to be passed by your framework of choice.
