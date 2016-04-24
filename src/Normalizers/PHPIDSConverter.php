@@ -9,10 +9,9 @@ class PHPIDSConverter implements NormalizerInterface
 
     public function normalize(array $verifiableInformation)
     {
-
         foreach (get_class_methods(__CLASS__) as $method) {
             if ($method != 'normalize') {
-                array_walk_recursive($verifiableInformation, function($value) {
+                array_walk_recursive($verifiableInformation, function ($value) {
 
                 });
             }
@@ -31,13 +30,13 @@ class PHPIDSConverter implements NormalizerInterface
     {
         // check for existing comments
         if (preg_match('/(?:\<!-|-->|\/\*|\*\/|\/\/\W*\w+\s*$)|(?:--[^-]*-)/ms', $value)) {
-            $pattern = array(
+            $pattern = [
                 '/(?:(?:<!)(?:(?:--(?:[^-]*(?:-[^-]+)*)--\s*)*)(?:>))/ms',
                 '/(?:(?:\/\*\/*[^\/\*]*)+\*\/)/ms',
                 '/(?:--[^-]*-)/ms'
-            );
+            ];
             $converted = preg_replace($pattern, ';', $value);
-            $value    .= "\n" . $converted;
+            $value .= "\n".$converted;
         }
         //make sure inline comments are detected and converted correctly
         $value = preg_replace('/(<\w+)\/+(\w+=?)/m', '$1/$2', $value);
@@ -45,8 +44,10 @@ class PHPIDSConverter implements NormalizerInterface
         $value = preg_replace('/([^\-&])#.*[\r\n\v\f]/m', '$1', $value);
         $value = preg_replace('/([^&\-])#.*\n/m', '$1 ', $value);
         $value = preg_replace('/^#.*\n/m', ' ', $value);
+
         return $value;
     }
+
     /**
      * Strip newlines
      *
@@ -58,13 +59,15 @@ class PHPIDSConverter implements NormalizerInterface
     protected function convertFromWhiteSpace($value)
     {
         //check for inline linebreaks
-        $search = array('\r', '\n', '\f', '\t', '\v');
-        $value  = str_replace($search, ';', $value);
+        $search = ['\r', '\n', '\f', '\t', '\v'];
+        $value = str_replace($search, ';', $value);
         // replace replacement characters regular spaces
         $value = str_replace('�', ' ', $value);
+
         //convert real linebreaks
         return preg_replace('/(?:\n|\r|\v)/m', '  ', $value);
     }
+
     /**
      * Checks for common charcode pattern and decodes them
      *
@@ -75,14 +78,14 @@ class PHPIDSConverter implements NormalizerInterface
      */
     protected function convertFromJSCharcode($value)
     {
-        $matches = array();
+        $matches = [];
         // check if value matches typical charCode pattern
         if (preg_match_all('/(?:[\d+-=\/\* ]+(?:\s?,\s?[\d+-=\/\* ]+)){4,}/ms', $value, $matches)) {
             $converted = '';
-            $string    = implode(',', $matches[0]);
-            $string    = preg_replace('/\s/', '', $string);
-            $string    = preg_replace('/\w+=/', '', $string);
-            $charcode  = explode(',', $string);
+            $string = implode(',', $matches[0]);
+            $string = preg_replace('/\s/', '', $string);
+            $string = preg_replace('/\w+=/', '', $string);
+            $charcode = explode(',', $string);
             foreach ($charcode as $char) {
                 $char = preg_replace('/\W0/s', '', $char);
                 if (preg_match_all('/\d*[+-\/\* ]\d+/', $char, $matches)) {
@@ -94,32 +97,34 @@ class PHPIDSConverter implements NormalizerInterface
                     $converted .= chr($char);
                 }
             }
-            $value .= "\n" . $converted;
+            $value .= "\n".$converted;
         }
         // check for octal charcode pattern
         if (preg_match_all('/(?:(?:[\\\]+\d+[ \t]*){8,})/ims', $value, $matches)) {
             $converted = '';
-            $charcode  = explode('\\', preg_replace('/\s/', '', implode(',', $matches[0])));
+            $charcode = explode('\\', preg_replace('/\s/', '', implode(',', $matches[0])));
             foreach (array_map('octdec', array_filter($charcode)) as $char) {
                 if (20 <= $char && $char <= 127) {
                     $converted .= chr($char);
                 }
             }
-            $value .= "\n" . $converted;
+            $value .= "\n".$converted;
         }
         // check for hexadecimal charcode pattern
         if (preg_match_all('/(?:(?:[\\\]+\w+\s*){8,})/ims', $value, $matches)) {
             $converted = '';
-            $charcode  = explode('\\', preg_replace('/[ux]/', '', implode(',', $matches[0])));
+            $charcode = explode('\\', preg_replace('/[ux]/', '', implode(',', $matches[0])));
             foreach (array_map('hexdec', array_filter($charcode)) as $char) {
                 if (20 <= $char && $char <= 127) {
                     $converted .= chr($char);
                 }
             }
-            $value .= "\n" . $converted;
+            $value .= "\n".$converted;
         }
+
         return $value;
     }
+
     /**
      * Eliminate JS regex modifiers
      *
@@ -132,6 +137,7 @@ class PHPIDSConverter implements NormalizerInterface
     {
         return preg_replace('/\/[gim]+/', '/', $value);
     }
+
     /**
      * Converts from hex/dec entities
      *
@@ -148,7 +154,7 @@ class PHPIDSConverter implements NormalizerInterface
         if (preg_match('/&#x?[\w]+/ms', $value)) {
             $converted = preg_replace('/(&#x?[\w]{2}\d?);?/ms', '$1;', $value);
             $converted = html_entity_decode($converted, ENT_QUOTES, 'UTF-8');
-            $value    .= "\n" . str_replace(';;', ';', $converted);
+            $value .= "\n".str_replace(';;', ';', $converted);
         }
         // normalize obfuscated protocol handlers
         $value = preg_replace(
@@ -156,8 +162,10 @@ class PHPIDSConverter implements NormalizerInterface
             'javascript:',
             $value
         );
+
         return $value;
     }
+
     /**
      * Normalize quotes
      *
@@ -169,12 +177,14 @@ class PHPIDSConverter implements NormalizerInterface
     protected function convertQuotes($value)
     {
         // normalize different quotes to "
-        $pattern = array('\'', '`', '´', '’', '‘');
-        $value   = str_replace($pattern, '"', $value);
+        $pattern = ['\'', '`', '´', '’', '‘'];
+        $value = str_replace($pattern, '"', $value);
         //make sure harmless quoted strings don't generate false alerts
         $value = preg_replace('/^"([^"=\\!><~]+)"$/', '$1', $value);
+
         return $value;
     }
+
     /**
      * Converts SQLHEX to plain text
      *
@@ -185,7 +195,7 @@ class PHPIDSConverter implements NormalizerInterface
      */
     protected function convertFromSQLHex($value)
     {
-        $matches = array();
+        $matches = [];
         if (preg_match_all('/(?:(?:\A|[^\d])0x[a-f\d]{3,}[a-f\d]*)+/im', $value, $matches)) {
             foreach ($matches[0] as $match) {
                 $converted = '';
@@ -199,8 +209,10 @@ class PHPIDSConverter implements NormalizerInterface
         }
         // take care of hex encoded ctrl chars
         $value = preg_replace('/0x\d+/m', ' 1 ', $value);
+
         return $value;
     }
+
     /**
      * Converts basic SQL keywords and obfuscations
      *
@@ -211,30 +223,32 @@ class PHPIDSConverter implements NormalizerInterface
      */
     protected function convertFromSQLKeywords($value)
     {
-        $pattern = array(
-            '/(?:is\s+null)|(like\s+null)|' .
+        $pattern = [
+            '/(?:is\s+null)|(like\s+null)|'.
             '(?:(?:^|\W)in[+\s]*\([\s\d"]+[^()]*\))/ims'
-        );
-        $value   = preg_replace($pattern, '"=0', $value);
-        $value   = preg_replace('/[^\w\)]+\s*like\s*[^\w\s]+/ims', '1" OR "1"', $value);
-        $value   = preg_replace('/null([,"\s])/ims', '0$1', $value);
-        $value   = preg_replace('/\d+\./ims', ' 1', $value);
-        $value   = preg_replace('/,null/ims', ',0', $value);
-        $value   = preg_replace('/(?:between)/ims', 'or', $value);
-        $value   = preg_replace('/(?:and\s+\d+\.?\d*)/ims', '', $value);
-        $value   = preg_replace('/(?:\s+and\s+)/ims', ' or ', $value);
-        $pattern = array(
-            '/(?:not\s+between)|(?:is\s+not)|(?:not\s+in)|' .
-            '(?:xor|<>|rlike(?:\s+binary)?)|' .
-            '(?:regexp\s+binary)|' .
+        ];
+        $value = preg_replace($pattern, '"=0', $value);
+        $value = preg_replace('/[^\w\)]+\s*like\s*[^\w\s]+/ims', '1" OR "1"', $value);
+        $value = preg_replace('/null([,"\s])/ims', '0$1', $value);
+        $value = preg_replace('/\d+\./ims', ' 1', $value);
+        $value = preg_replace('/,null/ims', ',0', $value);
+        $value = preg_replace('/(?:between)/ims', 'or', $value);
+        $value = preg_replace('/(?:and\s+\d+\.?\d*)/ims', '', $value);
+        $value = preg_replace('/(?:\s+and\s+)/ims', ' or ', $value);
+        $pattern = [
+            '/(?:not\s+between)|(?:is\s+not)|(?:not\s+in)|'.
+            '(?:xor|<>|rlike(?:\s+binary)?)|'.
+            '(?:regexp\s+binary)|'.
             '(?:sounds\s+like)/ims'
-        );
-        $value   = preg_replace($pattern, '!', $value);
-        $value   = preg_replace('/"\s+\d/', '"', $value);
-        $value   = preg_replace('/(\W)div(\W)/ims', '$1 OR $2', $value);
-        $value   = preg_replace('/\/(?:\d+|null)/', null, $value);
+        ];
+        $value = preg_replace($pattern, '!', $value);
+        $value = preg_replace('/"\s+\d/', '"', $value);
+        $value = preg_replace('/(\W)div(\W)/ims', '$1 OR $2', $value);
+        $value = preg_replace('/\/(?:\d+|null)/', null, $value);
+
         return $value;
     }
+
     /**
      * Detects nullbytes and controls chars via ord()
      *
@@ -246,12 +260,32 @@ class PHPIDSConverter implements NormalizerInterface
     protected function convertFromControlChars($value)
     {
         // critical ctrl values
-        $search = array(
-            chr(0), chr(1), chr(2), chr(3), chr(4), chr(5),
-            chr(6), chr(7), chr(8), chr(11), chr(12), chr(14),
-            chr(15), chr(16), chr(17), chr(18), chr(19), chr(24),
-            chr(25), chr(192), chr(193), chr(238), chr(255), '\\0'
-        );
+        $search = [
+            chr(0),
+            chr(1),
+            chr(2),
+            chr(3),
+            chr(4),
+            chr(5),
+            chr(6),
+            chr(7),
+            chr(8),
+            chr(11),
+            chr(12),
+            chr(14),
+            chr(15),
+            chr(16),
+            chr(17),
+            chr(18),
+            chr(19),
+            chr(24),
+            chr(25),
+            chr(192),
+            chr(193),
+            chr(238),
+            chr(255),
+            '\\0'
+        ];
         $value = str_replace($search, '%00', $value);
         //take care for malicious unicode characters
         $value = urldecode(
@@ -270,39 +304,41 @@ class PHPIDSConverter implements NormalizerInterface
         $value = preg_replace('/(?:%ff1c)/', '<', $value);
         $value = preg_replace('/(?:&[#x]*(200|820|200|820|zwn?j|lrm|rlm)\w?;?)/i', null, $value);
         $value = preg_replace(
-            '/(?:&#(?:65|8)\d{3};?)|' .
-            '(?:&#(?:56|7)3\d{2};?)|' .
-            '(?:&#x(?:fe|20)\w{2};?)|' .
+            '/(?:&#(?:65|8)\d{3};?)|'.
+            '(?:&#(?:56|7)3\d{2};?)|'.
+            '(?:&#x(?:fe|20)\w{2};?)|'.
             '(?:&#x(?:d[c-f])\w{2};?)/i',
             null,
             $value
         );
         $value = str_replace(
-            array(
+            [
                 '«',
                 '〈',
                 '＜',
                 '‹',
                 '〈',
                 '⟨'
-            ),
+            ],
             '<',
             $value
         );
         $value = str_replace(
-            array(
+            [
                 '»',
                 '〉',
                 '＞',
                 '›',
                 '〉',
                 '⟩'
-            ),
+            ],
             '>',
             $value
         );
+
         return $value;
     }
+
     /**
      * This method matches and translates base64 strings and fragments
      * used in data URIs
@@ -314,7 +350,7 @@ class PHPIDSConverter implements NormalizerInterface
      */
     protected function convertFromNestedBase64($value)
     {
-        $matches = array();
+        $matches = [];
         preg_match_all('/(?:^|[,&?])\s*([a-z0-9]{50,}=*)(?:\W|$)/im', $value, $matches);
         foreach ($matches[1] as $item) {
             if (isset($item) && !preg_match('/[a-f0-9]{32}/i', $item)) {
@@ -322,8 +358,10 @@ class PHPIDSConverter implements NormalizerInterface
                 $value = str_replace($item, $base64_item, $value);
             }
         }
+
         return $value;
     }
+
     /**
      * Detects nullbytes and controls chars via ord()
      *
@@ -340,8 +378,10 @@ class PHPIDSConverter implements NormalizerInterface
                 $value = str_replace($item, ' ', $value);
             }
         }
+
         return $value;
     }
+
     /**
      * Strip XML patterns
      *
@@ -356,9 +396,10 @@ class PHPIDSConverter implements NormalizerInterface
         if (!$converted || $converted === $value) {
             return $value;
         } else {
-            return $value . "\n" . $converted;
+            return $value."\n".$converted;
         }
     }
+
     /**
      * This method converts JS unicode code points to
      * regular characters
@@ -370,7 +411,7 @@ class PHPIDSConverter implements NormalizerInterface
      */
     protected function convertFromJSUnicode($value)
     {
-        $matches = array();
+        $matches = [];
         preg_match_all('/\\\u[0-9a-f]{4}/ims', $value, $matches);
         if (!empty($matches[0])) {
             foreach ($matches[0] as $match) {
@@ -379,8 +420,10 @@ class PHPIDSConverter implements NormalizerInterface
             }
             $value .= "\n\u0001";
         }
+
         return $value;
     }
+
     /**
      * Converts relevant UTF-7 tags to UTF-8
      *
@@ -402,10 +445,10 @@ class PHPIDSConverter implements NormalizerInterface
                         }
                     }
                 }
-                $value .= "\n" . mb_convert_encoding($value, 'UTF-8', 'UTF-7');
+                $value .= "\n".mb_convert_encoding($value, 'UTF-8', 'UTF-7');
             } else {
                 //list of all critical UTF7 codepoints
-                $schemes = array(
+                $schemes = [
                     '+ACI-'      => '"',
                     '+ADw-'      => '<',
                     '+AD4-'      => '>',
@@ -429,7 +472,7 @@ class PHPIDSConverter implements NormalizerInterface
                     '+AF4-'      => '^',
                     '+ACIAPg-'   => '">',
                     '+ACIAPgA8-' => '">'
-                );
+                ];
                 $value = str_ireplace(
                     array_keys($schemes),
                     array_values($schemes),
@@ -437,8 +480,10 @@ class PHPIDSConverter implements NormalizerInterface
                 );
             }
         }
+
         return $value;
     }
+
     /**
      * Converts basic concatenations
      *
@@ -454,7 +499,7 @@ class PHPIDSConverter implements NormalizerInterface
             $value .= preg_replace('/(\w)\\\/', "$1", $value);
         }
         $compare = stripslashes($value);
-        $pattern = array(
+        $pattern = [
             '/(?:<\/\w+>\+<\w+>)/s',
             '/(?:":\d+[^"[]+")/s',
             '/(?:"?"\+\w+\+")/s',
@@ -473,7 +518,7 @@ class PHPIDSConverter implements NormalizerInterface
             '/(?:(this|self)\.)/',
             '/(?:undefined)/',
             '/(?:in\s+)/'
-        );
+        ];
         // strip out concatenations
         $converted = preg_replace($pattern, null, $compare);
         //strip object traversal
@@ -487,10 +532,12 @@ class PHPIDSConverter implements NormalizerInterface
             $converted
         );
         if ($converted && ($compare != $converted)) {
-            $value .= "\n" . $converted;
+            $value .= "\n".$converted;
         }
+
         return $value;
     }
+
     /**
      * This method collects and decodes proprietary encoding types
      *
@@ -529,8 +576,10 @@ class PHPIDSConverter implements NormalizerInterface
         $value = preg_replace('/(\w\s)&\s(\w)/', '$1$2', $value);
         //normalize escaped RegExp modifiers
         $value = preg_replace('/\/\\\(\w)/', '/$1', $value);
+
         return $value;
     }
+
     /**
      * This method removes encoded sql # comments
      *
@@ -541,15 +590,17 @@ class PHPIDSConverter implements NormalizerInterface
      */
     protected function convertFromUrlencodeSqlComment($value)
     {
-        if (preg_match_all('/(?:\%23.*?\%0a)/im',$value,$matches)){
+        if (preg_match_all('/(?:\%23.*?\%0a)/im', $value, $matches)) {
             $converted = $value;
-            foreach($matches[0] as $match){
-                $converted = str_replace($match,' ',$converted);
+            foreach ($matches[0] as $match) {
+                $converted = str_replace($match, ' ', $converted);
             }
-            $value .= "\n" . $converted;
+            $value .= "\n".$converted;
         }
+
         return $value;
     }
+
     /**
      * This method is the centrifuge prototype
      *
@@ -587,21 +638,21 @@ class PHPIDSConverter implements NormalizerInterface
                     preg_replace('/\s{2,}/m', null, $tmp_value)
                 )
             );
-            if ($stripped_length != 0 && $overall_length/$stripped_length <= $threshold) {
-                $monitor->centrifuge['ratio']     = $overall_length / $stripped_length;
-                $monitor->centrifuge['threshold'] =$threshold;
+            if ($stripped_length != 0 && $overall_length / $stripped_length <= $threshold) {
+                $monitor->centrifuge['ratio'] = $overall_length / $stripped_length;
+                $monitor->centrifuge['threshold'] = $threshold;
                 $value .= "\n$[!!!]";
             }
         }
         if (strlen($value) > 40) {
             // Replace all non-special chars
-            $converted =  preg_replace('/[\w\s\p{L},.:!]/', null, $value);
+            $converted = preg_replace('/[\w\s\p{L},.:!]/', null, $value);
             // Split string into an array, unify and sort
             $array = str_split($converted);
             $array = array_unique($array);
             asort($array);
             // Normalize certain tokens
-            $schemes = array(
+            $schemes = [
                 '~' => '+',
                 '^' => '+',
                 '|' => '+',
@@ -609,7 +660,7 @@ class PHPIDSConverter implements NormalizerInterface
                 '%' => '+',
                 '&' => '+',
                 '/' => '+'
-            );
+            ];
             $converted = implode($array);
             $_keys = array_keys($schemes);
             $_values = array_values($schemes);
@@ -624,9 +675,11 @@ class PHPIDSConverter implements NormalizerInterface
             $converted = implode($array);
             if (preg_match('/(?:\({2,}\+{2,}:{2,})|(?:\({2,}\+{2,}:+)|(?:\({3,}\++:{2,})/', $converted)) {
                 $monitor->centrifuge['converted'] = $converted;
-                return $value . "\n" . $converted;
+
+                return $value."\n".$converted;
             }
         }
+
         return $value;
     }
 }
