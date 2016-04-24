@@ -14,6 +14,7 @@ Sylar is a framework-agnostic IDS - Intrusion Detection System implementing PSR-
 
 ## Quickstart
 ```php
+<?php
 use Ionut\Sylar\Integrations\Standalone;
 
 $sylar = new Standalone('path/to/your.log');
