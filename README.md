@@ -31,7 +31,7 @@ $sylar->digest($request);
 
 ## Dashboard
 Although not publicly released yet, it's important to state that Sylar will have a nice dashboard hopefully at the end of May.
-![](http://i.imgur.com/T6Ws7Ax.png)
+![](http://i.imgur.com/4NEL2F0.png)
 
 ## Frameworks
 Adapters for ease of use in frameworks haven't been written yet. If time is short please use the standalone example from the Quickstart section, it works no matter what framework you use / don't use.
