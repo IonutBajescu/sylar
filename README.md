@@ -14,23 +14,14 @@ Sylar is a framework-agnostic IDS - Intrusion Detection System implementing PSR-
 
 ## Quickstart
 ```php
-<?php
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-use Ionut\Sylar\Reactor;
+use Ionut\Sylar\Integrations\Standalone;
 
-// $logger can be whatever logger you prefer as long as it adheres to PSR-3.
-// Our recommended choice would be Monolog.
-$logger = new Logger('ids');
-$logger->pushHandler(new StreamHandler('path/to/your.log'));
-
-$sylar = Reactor::factory($logger);
-// $request has to be passed by your framework of choice.
-$sylar->digest($request);
+$sylar = new Standalone('path/to/your.log');
+$sylar->run();
 ```
 
 ## Dashboard
-Although not publicly released yet, it's important to state that Sylar will have a nice dashboard hopefully at the end of May.
+Although not publicly released yet, it's important to state that Sylar will have a nice dashboard, hopefully, at the end of May.
 ![](http://i.imgur.com/4NEL2F0.png)
 
 ## Frameworks
