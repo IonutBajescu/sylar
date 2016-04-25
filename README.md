@@ -24,7 +24,7 @@ $sylar->run();
 
 ## Dashboard
 Although not publicly released yet, it's important to state that Sylar will have a nice dashboard, hopefully, at the end of May.
-![](http://i.imgur.com/4NEL2F0.png)
+![](https://i.imgur.com/vxmoo9t.png)
 
 ## Frameworks
 Adapters for ease of use in frameworks haven't been written yet. If time is short please use the standalone example from the Quickstart section, it works no matter what framework you use / don't use.
