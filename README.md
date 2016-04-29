@@ -11,7 +11,7 @@ What's the deal with video cameras? If the intruder is quick enough you might as
 
 Then why do people bother to install them? The truth hides behind finding common breaches and identifying areas that are a common target for intruders.
 
-Sylar is like a video camera for your website, but better - it only records the requests that look like might harm your website. It doesn't block them neither remove the harmful characters - its only job is to show you areas of the website that are commonly tried to be breached by hackers .
+Sylar is like a video camera for your website, but better - it only records the requests that look like might harm your website. It doesn't block them nor remove the harmful characters - its only job is to show you areas of the website that are commonly tried to be breached by hackers .
 
 Under the hood, it digests PSR-7 Requests and logs everything into PSR-3 Loggers, it follows BDD and the code is formatted based on the PSR-2 standard.
 
