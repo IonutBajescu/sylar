@@ -7,12 +7,15 @@ Sylar - Intrusion Detection System
 [![Quality Score](https://img.shields.io/scrutinizer/g/IonutBajescu/sylar.svg?style=flat-square)](https://scrutinizer-ci.com/g/IonutBajescu/sylar)
 [![Total Downloads](https://img.shields.io/packagist/dt/ionut/sylar.svg?style=flat-square)](https://packagist.org/packages/ionut/sylar)
 
-Sylar is a framework-agnostic Intrusion Detection System written for modern php applications. Under the hood, it digests PSR-7 Request and logs everything into a PSR-3 Logger, it follows BDD and the code is formatted based on the PSR-2 standard.
+What's the deal with video cameras? If the intruder is quick enough you might as well never find him.
 
-An IDS in the context of a php library acts like a firewall that alerts you when it suspects that a request might harm your application.
-Sylar does not block the flagged requests nor removes the harmful characters. Its only job is to store these requests that are supposed to be harmful in a safe place so you can inspect them later.
+Then why do people bother to install them? The truth hides behind finding common breaches and identifying areas that are a common target for intruders.
 
-It also has a dashboard that provides you in real-time with useful statistics about the latest attempted intrusions on your website.
+Sylar is like a video camera for your website, but better - it only records the requests that look like might harm your website. It doesn't block them neither remove the harmful characters - its only job is to show you areas of the website that are commonly tried to be breached by hackers .
+
+Under the hood, it digests PSR-7 Requests and logs everything into PSR-3 Loggers, it follows BDD and the code is formatted based on the PSR-2 standard.
+
+And it also has a nice dashboard that provides you in real-time with useful statistics about the latest attempted intrusions on your website.
 
 ## Installation
 `composer require ionut/sylar`
