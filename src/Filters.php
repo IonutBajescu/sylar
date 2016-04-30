@@ -21,14 +21,17 @@ class Filters
     }
 
     /**
-     * @param  string  $value
+     * @param  NormalizedValue  $normalizedValue
      * @return Filters\FilterReportInterface[]
      */
-    public function matches($value)
+    public function matches(NormalizedValue $normalizedValue)
     {
         foreach ($this->items as $item) {
-            if ($filterReport = $item->matches($value)) {
-                yield $filterReport;
+            foreach ($normalizedValue->getVariantsWithOriginal() as $variant) {
+                if ($filterReport = $item->matches($variant)) {
+                    yield $filterReport;
+                    break;
+                }
             }
         }
     }

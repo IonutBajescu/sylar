@@ -4,6 +4,7 @@ namespace Ionut\Sylar\Filters\PHPIDS;
 
 
 use Ionut\Sylar\Filters\FilterReportInterface;
+use Ionut\Sylar\NormalizedValueVariant;
 
 class Report implements FilterReportInterface
 {
@@ -13,17 +14,17 @@ class Report implements FilterReportInterface
     protected $rule;
 
     /**
-     * @var string
+     * @var NormalizedValueVariant
      */
     protected $value;
 
     /**
-     * @param  \stdClass  $rule
-     * @param  string     $value
+     * @param  \stdClass              $rule
+     * @param  NormalizedValueVariant $value
      */
-    public function __construct(\stdClass $rule, $value)
+    public function __construct(\stdClass $rule, NormalizedValueVariant $value)
     {
-        $this->rule  = $rule;
+        $this->rule = $rule;
         $this->value = $value;
     }
 
@@ -34,7 +35,7 @@ class Report implements FilterReportInterface
     {
         return "{$this->formatRuleTags()} RULE{$this->rule->id} \"{$this->rule->description}\"";
     }
-    
+
     /**
      * @return string
      */

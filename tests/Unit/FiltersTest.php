@@ -4,6 +4,8 @@ namespace Ionut\Sylar\Tests\Unit;
 
 
 use Ionut\Sylar\Filters;
+use Ionut\Sylar\NormalizedValue;
+use Ionut\Sylar\NormalizedValueVariant;
 use Ionut\Sylar\Tests\TestCase;
 
 class FiltersTest extends TestCase
@@ -14,14 +16,14 @@ class FiltersTest extends TestCase
         $filter
             ->expects($this->once())
             ->method('matches')
-                ->with('testingValue')
-                ->will($this->returnValue('somereport'));
+            ->with($this->anything())
+            ->will($this->returnValue('somereport'));
 
         $filters = new Filters([$filter]);
 
         $this->assertEquals(
             ['somereport'],
-            iterator_to_array($filters->matches('testingValue'))
+            iterator_to_array($filters->matches(new NormalizedValue('test')))
         );
     }
 
@@ -31,16 +33,13 @@ class FiltersTest extends TestCase
         $filter
             ->expects($this->once())
             ->method('matches')
-            ->with('testingValue')
+            ->with($this->anything())
             ->will($this->returnValue(null));
-
-        $filters = new Filters([
-            $filter
-        ]);
+        $filters = new Filters([$filter]);
 
         $this->assertEquals(
             [],
-            iterator_to_array($filters->matches('testingValue'))
+            iterator_to_array($filters->matches(new NormalizedValue('test')))
         );
     }
 }

@@ -3,6 +3,8 @@
 namespace Ionut\Sylar\Filters\PHPIDS;
 
 use Ionut\Sylar\Filters\FilterInterface;
+use Ionut\Sylar\Filters\FilterReportInterface;
+use Ionut\Sylar\NormalizedValueVariant;
 
 class Filter implements FilterInterface
 {
@@ -21,21 +23,21 @@ class Filter implements FilterInterface
     /**
      * Check a given value against this set of filters.
      *
-     * @param  string $value
-     * @return mixed
+     * @param NormalizedValueVariant|string $value
+     * @return FilterReportInterface|null
      */
-    public function matches($value)
+    public function matches(NormalizedValueVariant $value)
     {
         foreach ($this->filters as $filter) {
-            if ($this->checkAgainstRule($filter->rule, $value)) {
+            if ($this->checkAgainstRule($filter->rule, $value->getValue())) {
                 return new Report($filter, $value);
             }
         }
     }
 
     /**
-     * @param  string  $rule
-     * @param  string  $value
+     * @param  string $rule
+     * @param  string $value
      * @return boolean
      */
     protected function checkAgainstRule($rule, $value)

@@ -3,13 +3,15 @@
 namespace Ionut\Sylar\Filters;
 
 
+use Ionut\Sylar\NormalizedValueVariant;
+
 interface FilterInterface
 {
     /**
      * Check a given value against this set of filters.
      *
-     * @param  string  $value
-     * @return mixed
+     * @param  NormalizedValueVariant $value
+     * @return FilterReportInterface|null
      */
-    public function matches($value);
+    public function matches(NormalizedValueVariant $value);
 }

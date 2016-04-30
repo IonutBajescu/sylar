@@ -4,7 +4,10 @@ namespace Ionut\Sylar;
 
 
 use Ionut\Sylar\Filters\FilterReportInterface;
+use Ionut\Sylar\Normalizers\NormalizerInterface;
+use Ionut\Sylar\Normalizers\PHPIDSConverter;
 use Ionut\Sylar\Reactions\PsrLogger;
+use Ionut\Sylar\Reactions\ReactionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 
@@ -16,18 +19,25 @@ class Reactor
     protected $filters;
 
     /**
-     * @var array
+     * @var ReactionInterface[]
      */
     protected $reactions;
 
     /**
-     * @param Filters $filters
-     * @param array   $reactions
+     * @var NormalizerInterface[]
      */
-    public function __construct(Filters $filters, array $reactions = [])
+    protected $normalizers;
+
+    /**
+     * @param  Filters                $filters
+     * @param  ReactionInterface[]    $reactions
+     * @param  NormalizerInterface[]  $normalizers
+     */
+    public function __construct(Filters $filters, array $reactions = [], array $normalizers)
     {
         $this->filters = $filters;
         $this->reactions = $reactions;
+        $this->normalizers = $normalizers;
     }
 
     /**
@@ -44,6 +54,9 @@ class Reactor
             ]),
             [
                 new PsrLogger($logger, $threshold)
+            ],
+            [
+                new PHPIDSConverter()
             ]
         );
     }
@@ -55,13 +68,26 @@ class Reactor
      */
     public function digest(ServerRequestInterface $request)
     {
-        $parameters = $this->getVerifiableParameters($request);
+        $parameters = $this->normalize($this->getVerifiableParameters($request));
 
-        array_walk_recursive($parameters, function ($value) use($request) {
+        array_walk_recursive($parameters, function (NormalizedValue $value) use($request) {
             if ($filterReports = $this->filters->matches($value)) {
                 $this->broadcast(new Report(iterator_to_array($filterReports), $request));
             }
         });
+    }
+
+    /**
+     * @param   array  $parameters
+     * @return  array
+     */
+    public function normalize(array $parameters)
+    {
+        foreach ($this->normalizers as $normalizer) {
+            $parameters = $normalizer->normalize($parameters);
+        }
+
+        return $parameters;
     }
 
     /**
